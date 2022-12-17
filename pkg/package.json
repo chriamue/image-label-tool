@@ -1,0 +1,26 @@
+{
+  "name": "image-label-tool",
+  "collaborators": [
+    "Christian <chriamue@gmail.com>"
+  ],
+  "description": "Create bounding boxes around objects in an image and classify them according to your desired labels.",
+  "version": "0.1.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chriamue/image-label-tool"
+  },
+  "files": [
+    "image_label_tool_bg.wasm",
+    "image_label_tool.js",
+    "image_label_tool.d.ts"
+  ],
+  "module": "image_label_tool.js",
+  "types": "image_label_tool.d.ts",
+  "sideEffects": false,
+  "keywords": [
+    "machine-learning",
+    "label-tool",
+    "annotation-tool"
+  ]
+}
