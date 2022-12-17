@@ -13,11 +13,27 @@
 <span id="13">13</span>
 <span id="14">14</span>
 <span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
 </pre><pre class="rust"><code><span class="kw">use </span>wasm_bindgen::prelude::<span class="kw-2">*</span>;
 
 <span class="kw">mod </span>app;
+<span class="kw">mod </span>bbox;
+<span class="kw">mod </span>editor;
 <span class="kw">mod </span>header;
 <span class="kw">mod </span>upload_image;
+<span class="kw">mod </span>utils;
+
+<span class="doccomment">/// object class id
+</span><span class="kw">pub type </span>Class = u32;
+<span class="doccomment">/// annotation is an object bounding box in image and class type
+</span><span class="kw">pub type </span>Annotation = (bbox::BBox, Class);
 
 <span class="attribute">#[wasm_bindgen]
 </span><span class="kw">pub fn </span>init_label_tool(root: web_sys::Element) {

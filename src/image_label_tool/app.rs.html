@@ -47,14 +47,39 @@
 <span id="47">47</span>
 <span id="48">48</span>
 <span id="49">49</span>
-</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::header::Header;
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::editor::Editor;
+<span class="kw">use </span><span class="kw">crate</span>::header::Header;
 <span class="kw">use </span><span class="kw">crate</span>::upload_image::UploadImage;
+<span class="kw">use </span><span class="kw">crate</span>::Annotation;
+<span class="kw">use </span>image::DynamicImage;
 <span class="kw">use </span>yew::prelude::<span class="kw-2">*</span>;
 
-<span class="kw">pub struct </span>App {}
+<span class="kw">pub struct </span>App {
+    label: String,
+    labels: Vec&lt;String&gt;,
+}
 
 <span class="kw">pub enum </span>Msg {
     ImageChanged((String, Vec&lt;u8&gt;)),
+    NewAnnotation(Annotation),
 }
 
 <span class="kw">impl </span>Component <span class="kw">for </span>App {
@@ -62,12 +87,19 @@
     <span class="kw">type </span>Properties = ();
 
     <span class="kw">fn </span>create(_ctx: <span class="kw-2">&amp;</span>Context&lt;<span class="self">Self</span>&gt;) -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{}
+        <span class="self">Self </span>{
+            label: <span class="string">&quot;none&quot;</span>.to_string(),
+            labels: <span class="macro">include_str!</span>(<span class="string">&quot;../res/labels.txt&quot;</span>)
+                .split(<span class="string">&#39;\n&#39;</span>)
+                .map(|s| s.to_string())
+                .collect(),
+        }
     }
 
     <span class="kw">fn </span>update(<span class="kw-2">&amp;mut </span><span class="self">self</span>, _ctx: <span class="kw-2">&amp;</span>Context&lt;<span class="self">Self</span>&gt;, msg: <span class="self">Self</span>::Message) -&gt; bool {
         <span class="kw">match </span>msg {
             Msg::ImageChanged((_filename, _data)) =&gt; <span class="bool-val">true</span>,
+            Msg::NewAnnotation(_annotation) =&gt; <span class="bool-val">true</span>,
         }
     }
 
@@ -75,10 +107,14 @@
         <span class="kw">let </span>on_image_change = ctx
             .link()
             .callback(|(filename, data): (String, Vec&lt;u8&gt;)| Msg::ImageChanged((filename, data)));
+        <span class="kw">let </span>on_new_annotation = ctx.link().callback(Msg::NewAnnotation);
+        <span class="kw">let </span>image = DynamicImage::ImageRgb8(image::ImageBuffer::new(<span class="number">100</span>, <span class="number">100</span>));
+        <span class="kw">let </span>annotations = Vec::new();
         <span class="macro">html! </span>{
             &lt;&gt;
             &lt;Header /&gt;
             &lt;UploadImage onchange={on_image_change}/&gt;
+            &lt;Editor label={<span class="self">self</span>.label.clone()} labels={<span class="self">self</span>.labels.clone()} {image} {annotations} onchange={on_new_annotation}/&gt;
             &lt;/&gt;
         }
     }
