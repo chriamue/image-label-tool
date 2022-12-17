@@ -13,19 +13,15 @@
 <span id="13">13</span>
 <span id="14">14</span>
 <span id="15">15</span>
-<span id="16">16</span>
-<span id="17">17</span>
 </pre><pre class="rust"><code><span class="kw">use </span>wasm_bindgen::prelude::<span class="kw-2">*</span>;
 
-<span class="kw">mod </span>header;
 <span class="kw">mod </span>app;
+<span class="kw">mod </span>header;
+<span class="kw">mod </span>upload_image;
 
 <span class="attribute">#[wasm_bindgen]
 </span><span class="kw">pub fn </span>init_label_tool(root: web_sys::Element) {
-    yew::Renderer::&lt;app::App&gt;::with_root(
-        root
-    )
-    .render();
+    yew::Renderer::&lt;app::App&gt;::with_root(root).render();
 }
 
 <span class="attribute">#[cfg(test)]
