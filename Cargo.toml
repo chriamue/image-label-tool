@@ -9,4 +9,8 @@ readme = "README.md"
 repository = "https://github.com/chriamue/image-label-tool"
 keywords = ["machine-learning", "label-tool", "annotation-tool"]
 
+[lib]
+crate-type = ["cdylib", "rlib"]
+
 [dependencies]
+wasm-bindgen = "0.2"
