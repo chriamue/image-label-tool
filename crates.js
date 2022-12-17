@@ -1,0 +1,1 @@
+window.ALL_CRATES = ["image_label_tool"];
