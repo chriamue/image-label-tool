@@ -1,14 +1,17 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
+use wasm_bindgen::prelude::*;
+
+mod header;
+mod app;
+
+#[wasm_bindgen]
+pub fn init_label_tool(root: web_sys::Element) {
+    yew::Renderer::<app::App>::with_root(
+        root
+    )
+    .render();
 }
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+    wasm_bindgen_test::wasm_bindgen_test_configure!(run_in_browser);
 }
