@@ -13,6 +13,11 @@ keywords = ["machine-learning", "label-tool", "annotation-tool"]
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
+base64 = "0.13.0"
+image = { version = "0.24.3", default-features = false, features = [
+  "png",
+  "jpeg",
+] }
 js-sys = "0.3.55"
 wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
 wasm-bindgen-futures = "0.4.30"
