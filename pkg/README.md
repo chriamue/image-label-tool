@@ -26,7 +26,6 @@ Exported data will be stored in Yolo format.
 <object-class> <x> <y> <width> <height>
 ```
 
-
 ## Usage
 
 1. Clone the repository:
