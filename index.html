@@ -1,22 +1,36 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Welcome to the Label Tool</title>
-  <link rel="stylesheet" href="index.css">
-</head>
-<body>
-  <h1>Welcome to the Label Tool</h1>
-  <p>
-    This tool allows you to label objects in images for object detection tasks in machine learning.
-  </p>
-  <p>
-    To get started, upload an image and use the mouse to draw bounding boxes around the objects you want to label. Use the dropdown menu to select the label for each bounding box.
-  </p>
-  <p>
-    Once you have labeled all the objects in the image, you can export the results in a JSON file.
-  </p>
-  <p>
-    We hope you find this tool useful for your machine learning projects.
-  </p>
-</body>
+  <head>
+    <title>Welcome to the Label Tool</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <h1>Welcome to the Label Tool</h1>
+    <p>
+      This tool allows you to label objects in images for object detection tasks
+      in machine learning.
+    </p>
+    <p>
+      To get started, upload an image and use the mouse to draw bounding boxes
+      around the objects you want to label. Use the dropdown menu to select the
+      label for each bounding box.
+    </p>
+    <p>
+      Once you have labeled all the objects in the image, you can export the
+      results in a JSON file.
+    </p>
+    <p>We hope you find this tool useful for your machine learning projects.</p>
+    <div id="label-tool" />
+    <script type="module">
+      import init, { init_label_tool } from "./pkg/image_label_tool.js";
+      var label_tool_element = document.getElementById("label-tool");
+      init().then(async () => {
+        try {
+          init_label_tool(label_tool_element);
+        } catch (e) {
+          console.error(e);
+        }
+      });
+    </script>
+  </body>
 </html>

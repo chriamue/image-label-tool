@@ -1,6 +1,5 @@
 # image-label-tool
 
-
 [![Github Repo](https://img.shields.io/badge/github-repo-green)](https://github.com/chriamue/image-label-tool/)
 [![Github Pages Build](https://github.com/chriamue/image-label-tool/actions/workflows/gh-pages.yml/badge.svg)](https://chriamue.github.io/image-label-tool/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -26,3 +25,27 @@ Exported data will be stored in Yolo format.
 ```txt
 <object-class> <x> <y> <width> <height>
 ```
+
+
+## Usage
+
+1. Clone the repository:
+
+    ```sh
+    git clone https://github.com/chriamue/image-label-tool
+    cd image-label-tool
+    ```
+
+2. Compile the code to WASM:
+
+    ```sh
+    wasm-pack build --target web
+    ```
+
+3. Run the Web version in your browser
+
+    ```sh
+    python3 -m http.server
+    ```
+
+Open your browser on [Localhost](http://localhost:8000)
