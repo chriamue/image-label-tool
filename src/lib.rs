@@ -1,14 +1,12 @@
 use wasm_bindgen::prelude::*;
 
-mod header;
 mod app;
+mod header;
+mod upload_image;
 
 #[wasm_bindgen]
 pub fn init_label_tool(root: web_sys::Element) {
-    yew::Renderer::<app::App>::with_root(
-        root
-    )
-    .render();
+    yew::Renderer::<app::App>::with_root(root).render();
 }
 
 #[cfg(test)]
