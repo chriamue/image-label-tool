@@ -1,0 +1,12 @@
+[package]
+name = "image-label-tool"
+version = "0.1.0"
+edition = "2021"
+description = "Create bounding boxes around objects in an image and classify them according to your desired labels."
+authors = ["Christian <chriamue@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/chriamue/image-label-tool"
+keywords = ["machine-learning", "label-tool", "annotation-tool"]
+
+[dependencies]
