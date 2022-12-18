@@ -1,20 +1,41 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
+* init label tool and start app on given root html element
 * @param {Element} root
 */
 export function init_label_tool(root: Element): void;
+/**
+*/
+export class AnnotatedImage {
+  free(): void;
+/**
+*/
+  constructor();
+}
+/**
+*/
+export class LabelTool {
+  free(): void;
+/**
+*/
+  constructor();
+}
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
+  readonly __wbg_annotatedimage_free: (a: number) => void;
+  readonly annotatedimage_constructor: () => number;
+  readonly __wbg_labeltool_free: (a: number) => void;
+  readonly labeltool_new: () => number;
   readonly init_label_tool: (a: number) => void;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
-  readonly _dyn_core__ops__function__FnMut___A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h17a0f7696326fd6b: (a: number, b: number, c: number) => void;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hd6c243f6c463bc2b: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__FnMut___A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h61c5a4712e1d3a8a: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h2d98a9cab2935898: (a: number, b: number, c: number) => void;
   readonly __wbindgen_free: (a: number, b: number) => void;
   readonly __wbindgen_exn_store: (a: number) => void;
 }
