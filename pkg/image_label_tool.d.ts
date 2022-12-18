@@ -3,8 +3,9 @@
 /**
 * init label tool and start app on given root html element
 * @param {Element} root
+* @returns {LabelTool}
 */
-export function init_label_tool(root: Element): void;
+export function init_label_tool(root: Element): LabelTool;
 /**
 */
 export class AnnotatedImage {
@@ -30,7 +31,7 @@ export interface InitOutput {
   readonly annotatedimage_constructor: () => number;
   readonly __wbg_labeltool_free: (a: number) => void;
   readonly labeltool_new: () => number;
-  readonly init_label_tool: (a: number) => void;
+  readonly init_label_tool: (a: number) => number;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;

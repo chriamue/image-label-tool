@@ -223,9 +223,11 @@ function __wbg_adapter_21(arg0, arg1, arg2) {
 /**
 * init label tool and start app on given root html element
 * @param {Element} root
+* @returns {LabelTool}
 */
 export function init_label_tool(root) {
-    wasm.init_label_tool(addHeapObject(root));
+    const ret = wasm.init_label_tool(addHeapObject(root));
+    return LabelTool.__wrap(ret);
 }
 
 function isLikeNone(x) {
@@ -714,12 +716,12 @@ function getImports() {
         const ret = wasm.memory;
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper357 = function(arg0, arg1, arg2) {
-        const ret = makeMutClosure(arg0, arg1, 179, __wbg_adapter_18);
+    imports.wbg.__wbindgen_closure_wrapper375 = function(arg0, arg1, arg2) {
+        const ret = makeMutClosure(arg0, arg1, 190, __wbg_adapter_18);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper728 = function(arg0, arg1, arg2) {
-        const ret = makeMutClosure(arg0, arg1, 310, __wbg_adapter_21);
+    imports.wbg.__wbindgen_closure_wrapper746 = function(arg0, arg1, arg2) {
+        const ret = makeMutClosure(arg0, arg1, 321, __wbg_adapter_21);
         return addHeapObject(ret);
     };
 
