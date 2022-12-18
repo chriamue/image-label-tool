@@ -9,6 +9,7 @@ use crate::label_tool::LabelTool;
 mod annotated_image;
 mod app;
 mod bbox;
+mod download;
 mod editor;
 mod header;
 mod images_list;

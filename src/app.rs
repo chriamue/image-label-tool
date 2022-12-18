@@ -1,4 +1,5 @@
 use crate::annotated_image::AnnotatedImage;
+use crate::download::download_bytes;
 use crate::editor::Editor;
 use crate::header::Header;
 use crate::images_list::ImagesList;
@@ -21,11 +22,27 @@ pub enum Msg {
     NewAnnotation(Annotation),
     AddImage(),
     ImageSelected(usize),
+    DownloadAnnotations,
 }
 
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
     pub label_tool: LabelTool,
+}
+
+pub fn format_annotation(annotation: &Annotation, labels: &Vec<String>) -> String {
+    let (bbox, class) = annotation;
+    format!(
+        "{} {} {} {} {}",
+        labels[*class as usize], bbox.x as i32, bbox.y as i32, bbox.w as i32, bbox.h as i32
+    )
+}
+
+pub fn format_annotations(annotations: &Vec<Annotation>, labels: &Vec<String>) -> Vec<String> {
+    annotations
+        .iter()
+        .map(|annotation| format_annotation(annotation, labels))
+        .collect::<Vec<String>>()
 }
 
 impl Component for App {
@@ -80,6 +97,22 @@ impl Component for App {
                 self.current = index;
                 true
             }
+            Msg::DownloadAnnotations => {
+                let annotated_images = ctx
+                    .props()
+                    .label_tool
+                    .annotated_images()
+                    .lock()
+                    .unwrap()
+                    .clone();
+                let annotations = annotated_images
+                    .get(self.current)
+                    .unwrap()
+                    .get_annotations();
+                let file_data = format_annotations(&annotations, &self.labels).join("\n");
+                download_bytes(file_data.as_bytes(), &format!("{}.txt", "annotations"));
+                true
+            }
         }
     }
 
@@ -91,6 +124,8 @@ impl Component for App {
         let on_label_change = ctx.link().callback(Msg::LabelChanged);
         let on_add_image = ctx.link().callback(|()| Msg::AddImage());
         let on_image_selected = ctx.link().callback(Msg::ImageSelected);
+        let on_download_annotations = ctx.link().callback(|_| Msg::DownloadAnnotations);
+
         let annotated_images = ctx
             .props()
             .label_tool
@@ -114,6 +149,9 @@ impl Component for App {
             <Labels onchange={on_label_change} label={self.label.clone()} labels={self.labels.clone()} />
             <ImagesList images={annotated_images} onaddimage={on_add_image} current={self.current} onimageselected={on_image_selected}/>
             <Editor label={self.label.clone()} labels={self.labels.clone()} {image} {annotations} onchange={on_new_annotation}/>
+            <button type="button" class="btn btn-success" onclick={on_download_annotations}>
+                { "Download Annotations" }
+            </button>
             </>
         }
     }

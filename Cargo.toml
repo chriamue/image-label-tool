@@ -16,17 +16,18 @@ crate-type = ["cdylib", "rlib"]
 base64 = "0.13.0"
 console_error_panic_hook = "0.1"
 image = { version = "0.24.3", default-features = false, features = [
-  "png",
-  "jpeg",
+    "png",
+    "jpeg",
 ] }
 imageproc = { version = "0.23.0", default-features = false }
 js-sys = "0.3.55"
-rusttype = "0.9.2"
+rusttype = "0.9.3"
 wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
 wasm-bindgen-futures = "0.4.30"
 web-sys = { version = "0.3.59", features = [
     "HtmlAnchorElement",
     "HtmlCanvasElement",
+    "CssStyleDeclaration",
     "ImageData",
 ] }
 yew = { version = "0.20.0", features = ["csr"] }
