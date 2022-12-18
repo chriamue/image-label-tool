@@ -3,6 +3,8 @@
 
 use wasm_bindgen::prelude::*;
 
+use crate::label_tool::LabelTool;
+
 mod annotated_image;
 mod app;
 mod bbox;
@@ -19,10 +21,18 @@ pub type Annotation = (bbox::BBox, Class);
 
 #[wasm_bindgen]
 /// init label tool and start app on given root html element
-pub fn init_label_tool(root: web_sys::Element) {
+pub fn init_label_tool(root: web_sys::Element) -> LabelTool {
     use console_error_panic_hook;
     console_error_panic_hook::set_once();
-    yew::Renderer::<app::App>::with_root(root).render();
+    let label_tool = LabelTool::new();
+    yew::Renderer::<app::App>::with_root_and_props(
+        root,
+        app::Props {
+            label_tool: label_tool.clone(),
+        },
+    )
+    .render();
+    label_tool
 }
 
 #[cfg(test)]
