@@ -28,10 +28,7 @@ impl LabelTool {
 
     pub fn get_annotated_image(&self, index: usize) -> Option<AnnotatedImage> {
         let locked = self.annotated_images.lock().unwrap();
-        match locked.get(index) {
-            Some(annotated_image) => Some(annotated_image.clone()),
-            None => None,
-        }
+        locked.get(index).cloned()
     }
 
     pub fn clear(&self) {
@@ -64,10 +61,18 @@ impl PartialEq for LabelTool {
 impl LabelTool {
     #[wasm_bindgen(constructor)]
     pub fn new() -> LabelTool {
-        let annotated_image = AnnotatedImage::new();
         LabelTool {
-            annotated_images: Arc::new(Mutex::new(vec![annotated_image])),
+            annotated_images: Arc::new(Mutex::new(Vec::new())),
         }
+    }
+}
+
+impl Default for LabelTool {
+    fn default() -> Self {
+        let annotated_image = AnnotatedImage::new();
+        let label_tool = Self::new();
+        label_tool.push(annotated_image);
+        label_tool
     }
 }
 
@@ -77,10 +82,10 @@ mod tests {
 
     #[test]
     fn test_len() {
-        let annotations = AnnotatedImage::new();
-        let label_tool = LabelTool::new();
+        let annotations = AnnotatedImage::default();
+        let label_tool = LabelTool::default();
         label_tool.push(annotations);
-        assert_eq!(1, label_tool.len());
+        assert_eq!(2, label_tool.len());
     }
 
     #[test]

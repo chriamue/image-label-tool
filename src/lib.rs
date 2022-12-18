@@ -10,6 +10,7 @@ mod app;
 mod bbox;
 mod editor;
 mod header;
+mod images_list;
 mod label_tool;
 mod labels;
 mod upload_image;
@@ -25,7 +26,7 @@ pub type Annotation = (bbox::BBox, Class);
 pub fn init_label_tool(root: web_sys::Element) -> LabelTool {
     use console_error_panic_hook;
     console_error_panic_hook::set_once();
-    let label_tool = LabelTool::new();
+    let label_tool = LabelTool::default();
     yew::Renderer::<app::App>::with_root_and_props(
         root,
         app::Props {

@@ -120,7 +120,7 @@ impl Component for Editor {
             <img src={img_url} {onmousedown} {onmousemove} {onmouseup} />
             <p>
             { ctx.props().annotations.iter().map(|annotation| {
-                    self.create_annotation_description(&ctx.props().image, &annotation, &ctx.props().labels)
+                    self.create_annotation_description(&ctx.props().image, annotation, &ctx.props().labels)
             }).collect::<Html>() }
             </p>
             </div>
@@ -165,7 +165,6 @@ mod tests {
         let labels = vec!["other".to_string(), "one".to_string()];
         let annotations: Vec<Annotation> = vec![det1, det2, det3];
         let formatted = format_annotation(&annotations[0], &labels);
-        assert_eq!(3, formatted.len());
         assert_eq!("other 0 0 1 1".to_string(), formatted);
     }
 

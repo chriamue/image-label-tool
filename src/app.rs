@@ -1,5 +1,7 @@
+use crate::annotated_image::AnnotatedImage;
 use crate::editor::Editor;
 use crate::header::Header;
+use crate::images_list::ImagesList;
 use crate::label_tool::LabelTool;
 use crate::labels::Labels;
 use crate::upload_image::UploadImage;
@@ -17,6 +19,8 @@ pub enum Msg {
     LabelChanged(String),
     ImageChanged((String, Vec<u8>)),
     NewAnnotation(Annotation),
+    AddImage(),
+    ImageSelected(usize),
 }
 
 #[derive(Clone, PartialEq, Properties)]
@@ -59,7 +63,23 @@ impl Component for App {
                 };
                 true
             }
-            Msg::NewAnnotation(_annotation) => true,
+            Msg::NewAnnotation(annotation) => {
+                ctx.props()
+                    .label_tool
+                    .add_annotation(self.current, annotation);
+                true
+            }
+            Msg::AddImage() => {
+                let img = image::DynamicImage::new_rgb8(1, 1);
+                let annotations = AnnotatedImage::new();
+                annotations.set_image(img);
+                ctx.props().label_tool.push(annotations);
+                true
+            }
+            Msg::ImageSelected(index) => {
+                self.current = index;
+                true
+            }
         }
     }
 
@@ -69,16 +89,30 @@ impl Component for App {
             .callback(|(filename, data): (String, Vec<u8>)| Msg::ImageChanged((filename, data)));
         let on_new_annotation = ctx.link().callback(Msg::NewAnnotation);
         let on_label_change = ctx.link().callback(Msg::LabelChanged);
+        let on_add_image = ctx.link().callback(|()| Msg::AddImage());
+        let on_image_selected = ctx.link().callback(Msg::ImageSelected);
+        let annotated_images = ctx
+            .props()
+            .label_tool
+            .annotated_images()
+            .lock()
+            .unwrap()
+            .clone();
+        let annotations = annotated_images
+            .get(self.current)
+            .unwrap()
+            .get_annotations();
         let image = match ctx.props().label_tool.get_annotated_image(self.current) {
             Some(annotated_image) => annotated_image.get_image(),
             None => DynamicImage::ImageRgb8(image::ImageBuffer::new(100, 100)),
         };
-        let annotations = Vec::new();
+
         html! {
             <>
             <Header />
             <UploadImage onchange={on_image_change}/>
             <Labels onchange={on_label_change} label={self.label.clone()} labels={self.labels.clone()} />
+            <ImagesList images={annotated_images} onaddimage={on_add_image} current={self.current} onimageselected={on_image_selected}/>
             <Editor label={self.label.clone()} labels={self.labels.clone()} {image} {annotations} onchange={on_new_annotation}/>
             </>
         }
