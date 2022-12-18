@@ -92,9 +92,20 @@
 <span id="92">92</span>
 <span id="93">93</span>
 <span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::editor::Editor;
 <span class="kw">use </span><span class="kw">crate</span>::header::Header;
 <span class="kw">use </span><span class="kw">crate</span>::label_tool::LabelTool;
+<span class="kw">use </span><span class="kw">crate</span>::labels::Labels;
 <span class="kw">use </span><span class="kw">crate</span>::upload_image::UploadImage;
 <span class="kw">use </span><span class="kw">crate</span>::Annotation;
 <span class="kw">use </span>image::DynamicImage;
@@ -107,6 +118,7 @@
 }
 
 <span class="kw">pub enum </span>Msg {
+    LabelChanged(String),
     ImageChanged((String, Vec&lt;u8&gt;)),
     NewAnnotation(Annotation),
 }
@@ -133,6 +145,10 @@
 
     <span class="kw">fn </span>update(<span class="kw-2">&amp;mut </span><span class="self">self</span>, ctx: <span class="kw-2">&amp;</span>Context&lt;<span class="self">Self</span>&gt;, msg: <span class="self">Self</span>::Message) -&gt; bool {
         <span class="kw">match </span>msg {
+            Msg::LabelChanged(label) =&gt; {
+                <span class="self">self</span>.label = label;
+                <span class="bool-val">true
+            </span>}
             Msg::ImageChanged((filename, data)) =&gt; {
                 <span class="kw">let </span>img = image::load_from_memory(<span class="kw-2">&amp;</span>data).unwrap();
                 <span class="macro">println!</span>(<span class="string">&quot;loaded {}&quot;</span>, filename);
@@ -156,6 +172,7 @@
             .link()
             .callback(|(filename, data): (String, Vec&lt;u8&gt;)| Msg::ImageChanged((filename, data)));
         <span class="kw">let </span>on_new_annotation = ctx.link().callback(Msg::NewAnnotation);
+        <span class="kw">let </span>on_label_change = ctx.link().callback(Msg::LabelChanged);
         <span class="kw">let </span>image = <span class="kw">match </span>ctx.props().label_tool.get_annotated_image(<span class="self">self</span>.current) {
             <span class="prelude-val">Some</span>(annotated_image) =&gt; annotated_image.get_image(),
             <span class="prelude-val">None </span>=&gt; DynamicImage::ImageRgb8(image::ImageBuffer::new(<span class="number">100</span>, <span class="number">100</span>)),
@@ -165,6 +182,7 @@
             &lt;&gt;
             &lt;Header /&gt;
             &lt;UploadImage onchange={on_image_change}/&gt;
+            &lt;Labels onchange={on_label_change} label={<span class="self">self</span>.label.clone()} labels={<span class="self">self</span>.labels.clone()} /&gt;
             &lt;Editor label={<span class="self">self</span>.label.clone()} labels={<span class="self">self</span>.labels.clone()} {image} {annotations} onchange={on_new_annotation}/&gt;
             &lt;/&gt;
         }
@@ -184,6 +202,8 @@
             .<span class="kw">await</span>;
         <span class="macro">assert!</span>(rendered.contains(<span class="string">&quot;&lt;h1&gt;Image Label Tool&lt;/h1&gt;&quot;</span>));
         <span class="macro">assert!</span>(rendered.contains(<span class="string">&quot;Upload an image file&quot;</span>));
+        <span class="macro">assert!</span>(rendered.contains(<span class="string">&quot;none&quot;</span>));
+        <span class="macro">assert!</span>(rendered.contains(<span class="string">&quot;object1&quot;</span>));
     }
 }
 </code></pre></div>

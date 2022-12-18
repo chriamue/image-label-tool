@@ -93,14 +93,12 @@
 <span id="93">93</span>
 <span id="94">94</span>
 <span id="95">95</span>
-<span id="96">96</span>
-</pre><pre class="rust"><code><span class="kw">use </span>std::{
+</pre><pre class="rust"><code><span class="kw">use crate</span>::{annotated_image::AnnotatedImage, Annotation};
+<span class="kw">use </span>std::{
     ops::Deref,
     sync::{Arc, Mutex},
 };
 <span class="kw">use </span>wasm_bindgen::prelude::<span class="kw-2">*</span>;
-
-<span class="kw">use crate</span>::{annotated_image::AnnotatedImage, Annotation};
 
 <span class="attribute">#[wasm_bindgen]
 #[derive(Debug, Clone)]
