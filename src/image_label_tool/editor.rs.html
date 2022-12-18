@@ -206,8 +206,9 @@
 <span id="206">206</span>
 <span id="207">207</span>
 <span id="208">208</span>
+<span id="209">209</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::bbox::BBox;
-<span class="kw">use </span><span class="kw">crate</span>::utils::image_to_base64_image;
+<span class="kw">use </span><span class="kw">crate</span>::utils::{image_to_base64_image, visualize_annotations};
 <span class="kw">use crate</span>::{Annotation, Class};
 <span class="kw">use </span>image::DynamicImage;
 <span class="kw">use </span>yew::{
@@ -321,7 +322,8 @@
         <span class="kw">let </span>onmouseup = ctx
             .link()
             .callback(|e: MouseEvent| Msg::MouseUp(e.offset_x(), e.offset_y()));
-        <span class="kw">let </span>img_url = image_to_base64_image(<span class="kw-2">&amp;</span>ctx.props().image);
+        <span class="kw">let </span>img = visualize_annotations(<span class="kw-2">&amp;</span>ctx.props().image, <span class="kw-2">&amp;</span>ctx.props().annotations);
+        <span class="kw">let </span>img_url = image_to_base64_image(<span class="kw-2">&amp;</span>img);
 
         <span class="macro">html! </span>{
             &lt;div id=<span class="string">&quot;editor&quot; </span>class=<span class="string">&quot;flex w-screen bg-gray-100&quot; </span>{ ondrop }&gt;
