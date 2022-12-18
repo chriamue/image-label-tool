@@ -174,6 +174,8 @@
 <span id="174">174</span>
 <span id="175">175</span>
 <span id="176">176</span>
+<span id="177">177</span>
+<span id="178">178</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::annotated_image::AnnotatedImage;
 <span class="kw">use </span><span class="kw">crate</span>::download::download_bytes;
 <span class="kw">use </span><span class="kw">crate</span>::editor::Editor;
@@ -340,7 +342,7 @@
 
     <span class="attribute">#[wasm_bindgen_test]
     </span><span class="kw">async fn </span>test_render() {
-        <span class="kw">let </span>label_tool = LabelTool::new();
+        <span class="kw">let </span>label_tool = LabelTool::default();
         <span class="kw">let </span>rendered = yew::LocalServerRenderer::&lt;App&gt;::with_props(Props { label_tool })
             .render()
             .<span class="kw">await</span>;
@@ -348,6 +350,8 @@
         <span class="macro">assert!</span>(rendered.contains(<span class="string">&quot;Upload an image file&quot;</span>));
         <span class="macro">assert!</span>(rendered.contains(<span class="string">&quot;none&quot;</span>));
         <span class="macro">assert!</span>(rendered.contains(<span class="string">&quot;object1&quot;</span>));
+        <span class="macro">assert!</span>(rendered.contains(<span class="string">&quot;Add Image&quot;</span>));
+        <span class="macro">assert!</span>(rendered.contains(<span class="string">&quot;Download Annotations&quot;</span>));
     }
 }
 </code></pre></div>
