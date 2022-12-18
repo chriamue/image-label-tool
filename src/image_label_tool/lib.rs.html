@@ -21,12 +21,25 @@
 <span id="21">21</span>
 <span id="22">22</span>
 <span id="23">23</span>
-</pre><pre class="rust"><code><span class="kw">use </span>wasm_bindgen::prelude::<span class="kw-2">*</span>;
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+</pre><pre class="rust"><code><span class="attribute">#![warn(missing_docs)]
+#![doc = <span class="macro">include_str!</span>(<span class="string">&quot;../README.md&quot;</span>)]
 
+</span><span class="kw">use </span>wasm_bindgen::prelude::<span class="kw-2">*</span>;
+
+<span class="kw">mod </span>annotated_image;
 <span class="kw">mod </span>app;
 <span class="kw">mod </span>bbox;
 <span class="kw">mod </span>editor;
 <span class="kw">mod </span>header;
+<span class="kw">mod </span>label_tool;
 <span class="kw">mod </span>upload_image;
 <span class="kw">mod </span>utils;
 
@@ -36,7 +49,10 @@
 </span><span class="kw">pub type </span>Annotation = (bbox::BBox, Class);
 
 <span class="attribute">#[wasm_bindgen]
+</span><span class="doccomment">/// init label tool and start app on given root html element
 </span><span class="kw">pub fn </span>init_label_tool(root: web_sys::Element) {
+    <span class="kw">use </span>console_error_panic_hook;
+    console_error_panic_hook::set_once();
     yew::Renderer::&lt;app::App&gt;::with_root(root).render();
 }
 
