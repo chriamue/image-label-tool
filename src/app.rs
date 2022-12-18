@@ -10,6 +10,7 @@ use crate::Annotation;
 use image::DynamicImage;
 use yew::prelude::*;
 
+/// The web app
 pub struct App {
     current: usize,
     label: String,

@@ -5,6 +5,7 @@ use std::{
 };
 use wasm_bindgen::prelude::*;
 
+/// struct of label tool that manages annotated images
 #[wasm_bindgen]
 #[derive(Debug, Clone)]
 pub struct LabelTool {
@@ -12,30 +13,36 @@ pub struct LabelTool {
 }
 
 impl LabelTool {
+    /// adds new annotated image
     pub fn push(&self, annotated_image: AnnotatedImage) {
         self.annotated_images.lock().unwrap().push(annotated_image);
     }
 
+    /// get annotated images
     pub fn annotated_images(&self) -> Arc<Mutex<Vec<AnnotatedImage>>> {
         self.annotated_images.clone()
     }
 
+    /// adds annotation to annotated image selected by index
     pub fn add_annotation(&self, index: usize, annotation: Annotation) {
         let mut locked = self.annotated_images.lock().unwrap();
         let annotations = locked.get_mut(index).unwrap();
         annotations.push(annotation);
     }
 
+    /// gets annotated image selected by index
     pub fn get_annotated_image(&self, index: usize) -> Option<AnnotatedImage> {
         let locked = self.annotated_images.lock().unwrap();
         locked.get(index).cloned()
     }
 
+    /// clears all annotated images
     pub fn clear(&self) {
         let mut locked = self.annotated_images.lock().unwrap();
         locked.clear();
     }
 
+    /// size of annotated images
     pub fn len(&self) -> usize {
         self.annotated_images.lock().unwrap().len()
     }
@@ -59,6 +66,7 @@ impl PartialEq for LabelTool {
 
 #[wasm_bindgen]
 impl LabelTool {
+    /// constructor of new label tool
     #[wasm_bindgen(constructor)]
     pub fn new() -> LabelTool {
         LabelTool {
