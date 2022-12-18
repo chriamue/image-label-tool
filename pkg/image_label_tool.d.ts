@@ -15,10 +15,12 @@ export class AnnotatedImage {
   constructor();
 }
 /**
+* struct of label tool that manages annotated images
 */
 export class LabelTool {
   free(): void;
 /**
+* constructor of new label tool
 */
   constructor();
 }

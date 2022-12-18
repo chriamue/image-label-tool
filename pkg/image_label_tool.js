@@ -290,6 +290,7 @@ export class AnnotatedImage {
     }
 }
 /**
+* struct of label tool that manages annotated images
 */
 export class LabelTool {
 
@@ -312,6 +313,7 @@ export class LabelTool {
         wasm.__wbg_labeltool_free(ptr);
     }
     /**
+    * constructor of new label tool
     */
     constructor() {
         const ret = wasm.labeltool_new();
