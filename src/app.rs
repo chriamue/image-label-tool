@@ -164,7 +164,7 @@ mod tests {
 
     #[wasm_bindgen_test]
     async fn test_render() {
-        let label_tool = LabelTool::new();
+        let label_tool = LabelTool::default();
         let rendered = yew::LocalServerRenderer::<App>::with_props(Props { label_tool })
             .render()
             .await;
@@ -172,5 +172,7 @@ mod tests {
         assert!(rendered.contains("Upload an image file"));
         assert!(rendered.contains("none"));
         assert!(rendered.contains("object1"));
+        assert!(rendered.contains("Add Image"));
+        assert!(rendered.contains("Download Annotations"));
     }
 }
