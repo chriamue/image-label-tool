@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":[["App",""],["LabelTool",""]]};
+window.SIDEBAR_ITEMS = {"struct":[["App","The web app"],["LabelTool","struct of label tool that manages annotated images"]]};

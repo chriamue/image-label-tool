@@ -176,6 +176,7 @@
 <span id="176">176</span>
 <span id="177">177</span>
 <span id="178">178</span>
+<span id="179">179</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::annotated_image::AnnotatedImage;
 <span class="kw">use </span><span class="kw">crate</span>::download::download_bytes;
 <span class="kw">use </span><span class="kw">crate</span>::editor::Editor;
@@ -188,7 +189,8 @@
 <span class="kw">use </span>image::DynamicImage;
 <span class="kw">use </span>yew::prelude::<span class="kw-2">*</span>;
 
-<span class="kw">pub struct </span>App {
+<span class="doccomment">/// The web app
+</span><span class="kw">pub struct </span>App {
     current: usize,
     label: String,
     labels: Vec&lt;String&gt;,
