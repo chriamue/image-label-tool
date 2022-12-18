@@ -15,6 +15,7 @@ mod header;
 mod images_list;
 mod label_tool;
 mod labels;
+mod upload_annotations;
 mod upload_image;
 mod utils;
 
@@ -41,11 +42,11 @@ pub fn init_label_tool(root: web_sys::Element) -> LabelTool {
 
 /// the image label tool prelude
 pub mod prelude {
-    pub use crate::Class;
-    pub use crate::Annotation;
     pub use crate::app::App;
     pub use crate::init_label_tool;
     pub use crate::label_tool::LabelTool;
+    pub use crate::Annotation;
+    pub use crate::Class;
 }
 
 #[cfg(test)]

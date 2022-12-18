@@ -1,10 +1,12 @@
 use crate::annotated_image::AnnotatedImage;
+use crate::bbox::BBox;
 use crate::download::download_bytes;
 use crate::editor::Editor;
 use crate::header::Header;
 use crate::images_list::ImagesList;
 use crate::label_tool::LabelTool;
 use crate::labels::Labels;
+use crate::upload_annotations::UploadAnnotations;
 use crate::upload_image::UploadImage;
 use crate::Annotation;
 use image::DynamicImage;
@@ -18,6 +20,7 @@ pub struct App {
 }
 
 pub enum Msg {
+    AnnotationsChanged((String, Vec<u8>)),
     LabelChanged(String),
     ImageChanged((String, Vec<u8>)),
     NewAnnotation(Annotation),
@@ -63,6 +66,48 @@ impl Component for App {
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
+            Msg::AnnotationsChanged((_, data)) => {
+                ctx.props()
+                    .label_tool
+                    .annotated_images()
+                    .lock()
+                    .unwrap()
+                    .get_mut(self.current)
+                    .unwrap()
+                    .clear();
+                let data = std::str::from_utf8(&data).unwrap().to_string();
+                for line in data.split('\n').collect::<Vec<&str>>() {
+                    let mut l = line.split(' ');
+                    let label = l.next().unwrap();
+                    let class = match self.labels.iter().position(|x| x == label) {
+                        Some(class) => class as u32,
+                        None => 0,
+                    };
+                    let x: u32 = l.next().unwrap().parse().unwrap();
+                    let y: u32 = l.next().unwrap().parse().unwrap();
+                    let w: u32 = match l.next() {
+                        Some(w) => w.parse().unwrap(),
+                        None => 32,
+                    };
+                    let h: u32 = match l.next() {
+                        Some(h) => h.parse().unwrap(),
+                        None => 32,
+                    };
+                    let annotation = (
+                        BBox {
+                            x: x as f32,
+                            y: y as f32,
+                            w: w as f32,
+                            h: h as f32,
+                        },
+                        class,
+                    );
+                    ctx.props()
+                        .label_tool
+                        .add_annotation(self.current, annotation);
+                }
+                true
+            }
             Msg::LabelChanged(label) => {
                 self.label = label;
                 true
@@ -122,6 +167,9 @@ impl Component for App {
             .link()
             .callback(|(filename, data): (String, Vec<u8>)| Msg::ImageChanged((filename, data)));
         let on_new_annotation = ctx.link().callback(Msg::NewAnnotation);
+        let on_annotations_change = ctx.link().callback(|(filename, data): (String, Vec<u8>)| {
+            Msg::AnnotationsChanged((filename, data))
+        });
         let on_label_change = ctx.link().callback(Msg::LabelChanged);
         let on_add_image = ctx.link().callback(|()| Msg::AddImage());
         let on_image_selected = ctx.link().callback(Msg::ImageSelected);
@@ -146,7 +194,10 @@ impl Component for App {
         html! {
             <>
             <Header />
-            <UploadImage onchange={on_image_change}/>
+            <div id="data-sources">
+                <UploadImage onchange={on_image_change}/>
+                <UploadAnnotations onchange={on_annotations_change}/>
+            </div>
             <Labels onchange={on_label_change} label={self.label.clone()} labels={self.labels.clone()} />
             <ImagesList images={annotated_images} onaddimage={on_add_image} current={self.current} onimageselected={on_image_selected}/>
             <Editor label={self.label.clone()} labels={self.labels.clone()} {image} {annotations} onchange={on_new_annotation}/>
