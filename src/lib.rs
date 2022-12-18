@@ -39,6 +39,15 @@ pub fn init_label_tool(root: web_sys::Element) -> LabelTool {
     label_tool
 }
 
+/// the image label tool prelude
+pub mod prelude {
+    pub use crate::Class;
+    pub use crate::Annotation;
+    pub use crate::app::App;
+    pub use crate::init_label_tool;
+    pub use crate::label_tool::LabelTool;
+}
+
 #[cfg(test)]
 mod tests {
     wasm_bindgen_test::wasm_bindgen_test_configure!(run_in_browser);
