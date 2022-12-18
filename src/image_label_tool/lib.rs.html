@@ -40,6 +40,7 @@
 <span id="40">40</span>
 <span id="41">41</span>
 <span id="42">42</span>
+<span id="43">43</span>
 </pre><pre class="rust"><code><span class="attribute">#![warn(missing_docs)]
 #![doc = <span class="macro">include_str!</span>(<span class="string">&quot;../README.md&quot;</span>)]
 
@@ -52,6 +53,7 @@
 <span class="kw">mod </span>bbox;
 <span class="kw">mod </span>editor;
 <span class="kw">mod </span>header;
+<span class="kw">mod </span>images_list;
 <span class="kw">mod </span>label_tool;
 <span class="kw">mod </span>labels;
 <span class="kw">mod </span>upload_image;
@@ -67,7 +69,7 @@
 </span><span class="kw">pub fn </span>init_label_tool(root: web_sys::Element) -&gt; LabelTool {
     <span class="kw">use </span>console_error_panic_hook;
     console_error_panic_hook::set_once();
-    <span class="kw">let </span>label_tool = LabelTool::new();
+    <span class="kw">let </span>label_tool = LabelTool::default();
     yew::Renderer::&lt;app::App&gt;::with_root_and_props(
         root,
         app::Props {

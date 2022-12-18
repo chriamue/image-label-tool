@@ -102,8 +102,44 @@
 <span id="102">102</span>
 <span id="103">103</span>
 <span id="104">104</span>
-</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::editor::Editor;
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::annotated_image::AnnotatedImage;
+<span class="kw">use </span><span class="kw">crate</span>::editor::Editor;
 <span class="kw">use </span><span class="kw">crate</span>::header::Header;
+<span class="kw">use </span><span class="kw">crate</span>::images_list::ImagesList;
 <span class="kw">use </span><span class="kw">crate</span>::label_tool::LabelTool;
 <span class="kw">use </span><span class="kw">crate</span>::labels::Labels;
 <span class="kw">use </span><span class="kw">crate</span>::upload_image::UploadImage;
@@ -121,6 +157,8 @@
     LabelChanged(String),
     ImageChanged((String, Vec&lt;u8&gt;)),
     NewAnnotation(Annotation),
+    AddImage(),
+    ImageSelected(usize),
 }
 
 <span class="attribute">#[derive(Clone, PartialEq, Properties)]
@@ -163,7 +201,23 @@
                 };
                 <span class="bool-val">true
             </span>}
-            Msg::NewAnnotation(_annotation) =&gt; <span class="bool-val">true</span>,
+            Msg::NewAnnotation(annotation) =&gt; {
+                ctx.props()
+                    .label_tool
+                    .add_annotation(<span class="self">self</span>.current, annotation);
+                <span class="bool-val">true
+            </span>}
+            Msg::AddImage() =&gt; {
+                <span class="kw">let </span>img = image::DynamicImage::new_rgb8(<span class="number">1</span>, <span class="number">1</span>);
+                <span class="kw">let </span>annotations = AnnotatedImage::new();
+                annotations.set_image(img);
+                ctx.props().label_tool.push(annotations);
+                <span class="bool-val">true
+            </span>}
+            Msg::ImageSelected(index) =&gt; {
+                <span class="self">self</span>.current = index;
+                <span class="bool-val">true
+            </span>}
         }
     }
 
@@ -173,16 +227,30 @@
             .callback(|(filename, data): (String, Vec&lt;u8&gt;)| Msg::ImageChanged((filename, data)));
         <span class="kw">let </span>on_new_annotation = ctx.link().callback(Msg::NewAnnotation);
         <span class="kw">let </span>on_label_change = ctx.link().callback(Msg::LabelChanged);
+        <span class="kw">let </span>on_add_image = ctx.link().callback(|()| Msg::AddImage());
+        <span class="kw">let </span>on_image_selected = ctx.link().callback(Msg::ImageSelected);
+        <span class="kw">let </span>annotated_images = ctx
+            .props()
+            .label_tool
+            .annotated_images()
+            .lock()
+            .unwrap()
+            .clone();
+        <span class="kw">let </span>annotations = annotated_images
+            .get(<span class="self">self</span>.current)
+            .unwrap()
+            .get_annotations();
         <span class="kw">let </span>image = <span class="kw">match </span>ctx.props().label_tool.get_annotated_image(<span class="self">self</span>.current) {
             <span class="prelude-val">Some</span>(annotated_image) =&gt; annotated_image.get_image(),
             <span class="prelude-val">None </span>=&gt; DynamicImage::ImageRgb8(image::ImageBuffer::new(<span class="number">100</span>, <span class="number">100</span>)),
         };
-        <span class="kw">let </span>annotations = Vec::new();
+
         <span class="macro">html! </span>{
             &lt;&gt;
             &lt;Header /&gt;
             &lt;UploadImage onchange={on_image_change}/&gt;
             &lt;Labels onchange={on_label_change} label={<span class="self">self</span>.label.clone()} labels={<span class="self">self</span>.labels.clone()} /&gt;
+            &lt;ImagesList images={annotated_images} onaddimage={on_add_image} current={<span class="self">self</span>.current} onimageselected={on_image_selected}/&gt;
             &lt;Editor label={<span class="self">self</span>.label.clone()} labels={<span class="self">self</span>.labels.clone()} {image} {annotations} onchange={on_new_annotation}/&gt;
             &lt;/&gt;
         }

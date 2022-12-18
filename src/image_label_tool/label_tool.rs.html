@@ -93,6 +93,11 @@
 <span id="93">93</span>
 <span id="94">94</span>
 <span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
 </pre><pre class="rust"><code><span class="kw">use crate</span>::{annotated_image::AnnotatedImage, Annotation};
 <span class="kw">use </span>std::{
     ops::Deref,
@@ -123,10 +128,7 @@
 
     <span class="kw">pub fn </span>get_annotated_image(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; <span class="prelude-ty">Option</span>&lt;AnnotatedImage&gt; {
         <span class="kw">let </span>locked = <span class="self">self</span>.annotated_images.lock().unwrap();
-        <span class="kw">match </span>locked.get(index) {
-            <span class="prelude-val">Some</span>(annotated_image) =&gt; <span class="prelude-val">Some</span>(annotated_image.clone()),
-            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
-        }
+        locked.get(index).cloned()
     }
 
     <span class="kw">pub fn </span>clear(<span class="kw-2">&amp;</span><span class="self">self</span>) {
@@ -159,10 +161,18 @@
 </span><span class="kw">impl </span>LabelTool {
     <span class="attribute">#[wasm_bindgen(constructor)]
     </span><span class="kw">pub fn </span>new() -&gt; LabelTool {
-        <span class="kw">let </span>annotated_image = AnnotatedImage::new();
         LabelTool {
-            annotated_images: Arc::new(Mutex::new(<span class="macro">vec!</span>[annotated_image])),
+            annotated_images: Arc::new(Mutex::new(Vec::new())),
         }
+    }
+}
+
+<span class="kw">impl </span>Default <span class="kw">for </span>LabelTool {
+    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>annotated_image = AnnotatedImage::new();
+        <span class="kw">let </span>label_tool = <span class="self">Self</span>::new();
+        label_tool.push(annotated_image);
+        label_tool
     }
 }
 
@@ -172,10 +182,10 @@
 
     <span class="attribute">#[test]
     </span><span class="kw">fn </span>test_len() {
-        <span class="kw">let </span>annotations = AnnotatedImage::new();
-        <span class="kw">let </span>label_tool = LabelTool::new();
+        <span class="kw">let </span>annotations = AnnotatedImage::default();
+        <span class="kw">let </span>label_tool = LabelTool::default();
         label_tool.push(annotations);
-        <span class="macro">assert_eq!</span>(<span class="number">1</span>, label_tool.len());
+        <span class="macro">assert_eq!</span>(<span class="number">2</span>, label_tool.len());
     }
 
     <span class="attribute">#[test]
