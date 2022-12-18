@@ -29,9 +29,9 @@ export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly __wbg_annotatedimage_free: (a: number) => void;
   readonly annotatedimage_constructor: () => number;
+  readonly init_label_tool: (a: number) => number;
   readonly __wbg_labeltool_free: (a: number) => void;
   readonly labeltool_new: () => number;
-  readonly init_label_tool: (a: number) => number;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
