@@ -3,9 +3,9 @@
 export const memory: WebAssembly.Memory;
 export function __wbg_annotatedimage_free(a: number): void;
 export function annotatedimage_constructor(): number;
-export function init_label_tool(a: number): number;
 export function __wbg_labeltool_free(a: number): void;
 export function labeltool_new(): number;
+export function init_label_tool(a: number): number;
 export function __wbindgen_malloc(a: number): number;
 export function __wbindgen_realloc(a: number, b: number, c: number): number;
 export const __wbindgen_export_2: WebAssembly.Table;
