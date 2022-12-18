@@ -1,5 +1,5 @@
 use crate::bbox::BBox;
-use crate::utils::image_to_base64_image;
+use crate::utils::{image_to_base64_image, visualize_annotations};
 use crate::{Annotation, Class};
 use image::DynamicImage;
 use yew::{
@@ -113,7 +113,8 @@ impl Component for Editor {
         let onmouseup = ctx
             .link()
             .callback(|e: MouseEvent| Msg::MouseUp(e.offset_x(), e.offset_y()));
-        let img_url = image_to_base64_image(&ctx.props().image);
+        let img = visualize_annotations(&ctx.props().image, &ctx.props().annotations);
+        let img_url = image_to_base64_image(&img);
 
         html! {
             <div id="editor" class="flex w-screen bg-gray-100" { ondrop }>
