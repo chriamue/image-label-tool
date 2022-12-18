@@ -52,6 +52,7 @@
 <span id="52">52</span>
 <span id="53">53</span>
 <span id="54">54</span>
+<span id="55">55</span>
 </pre><pre class="rust"><code><span class="attribute">#![warn(missing_docs)]
 #![doc = <span class="macro">include_str!</span>(<span class="string">&quot;../README.md&quot;</span>)]
 
@@ -69,6 +70,7 @@
 <span class="kw">mod </span>images_list;
 <span class="kw">mod </span>label_tool;
 <span class="kw">mod </span>labels;
+<span class="kw">mod </span>upload_annotations;
 <span class="kw">mod </span>upload_image;
 <span class="kw">mod </span>utils;
 
@@ -95,11 +97,11 @@
 
 <span class="doccomment">/// the image label tool prelude
 </span><span class="kw">pub mod </span>prelude {
-    <span class="kw">pub use </span><span class="kw">crate</span>::Class;
-    <span class="kw">pub use </span><span class="kw">crate</span>::Annotation;
     <span class="kw">pub use </span><span class="kw">crate</span>::app::App;
     <span class="kw">pub use </span><span class="kw">crate</span>::init_label_tool;
     <span class="kw">pub use </span><span class="kw">crate</span>::label_tool::LabelTool;
+    <span class="kw">pub use </span><span class="kw">crate</span>::Annotation;
+    <span class="kw">pub use </span><span class="kw">crate</span>::Class;
 }
 
 <span class="attribute">#[cfg(test)]
