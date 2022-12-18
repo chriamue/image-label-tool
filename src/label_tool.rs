@@ -1,10 +1,9 @@
+use crate::{annotated_image::AnnotatedImage, Annotation};
 use std::{
     ops::Deref,
     sync::{Arc, Mutex},
 };
 use wasm_bindgen::prelude::*;
-
-use crate::{annotated_image::AnnotatedImage, Annotation};
 
 #[wasm_bindgen]
 #[derive(Debug, Clone)]

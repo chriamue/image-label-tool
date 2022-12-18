@@ -11,6 +11,7 @@ mod bbox;
 mod editor;
 mod header;
 mod label_tool;
+mod labels;
 mod upload_image;
 mod utils;
 

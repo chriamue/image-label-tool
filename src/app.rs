@@ -1,6 +1,7 @@
 use crate::editor::Editor;
 use crate::header::Header;
 use crate::label_tool::LabelTool;
+use crate::labels::Labels;
 use crate::upload_image::UploadImage;
 use crate::Annotation;
 use image::DynamicImage;
@@ -13,6 +14,7 @@ pub struct App {
 }
 
 pub enum Msg {
+    LabelChanged(String),
     ImageChanged((String, Vec<u8>)),
     NewAnnotation(Annotation),
 }
@@ -39,6 +41,10 @@ impl Component for App {
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
+            Msg::LabelChanged(label) => {
+                self.label = label;
+                true
+            }
             Msg::ImageChanged((filename, data)) => {
                 let img = image::load_from_memory(&data).unwrap();
                 println!("loaded {}", filename);
@@ -62,6 +68,7 @@ impl Component for App {
             .link()
             .callback(|(filename, data): (String, Vec<u8>)| Msg::ImageChanged((filename, data)));
         let on_new_annotation = ctx.link().callback(Msg::NewAnnotation);
+        let on_label_change = ctx.link().callback(Msg::LabelChanged);
         let image = match ctx.props().label_tool.get_annotated_image(self.current) {
             Some(annotated_image) => annotated_image.get_image(),
             None => DynamicImage::ImageRgb8(image::ImageBuffer::new(100, 100)),
@@ -71,6 +78,7 @@ impl Component for App {
             <>
             <Header />
             <UploadImage onchange={on_image_change}/>
+            <Labels onchange={on_label_change} label={self.label.clone()} labels={self.labels.clone()} />
             <Editor label={self.label.clone()} labels={self.labels.clone()} {image} {annotations} onchange={on_new_annotation}/>
             </>
         }
@@ -90,5 +98,7 @@ mod tests {
             .await;
         assert!(rendered.contains("<h1>Image Label Tool</h1>"));
         assert!(rendered.contains("Upload an image file"));
+        assert!(rendered.contains("none"));
+        assert!(rendered.contains("object1"));
     }
 }
