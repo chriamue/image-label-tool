@@ -1,25 +1,35 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #F5F5F5;
+#label-tool {
+    padding: 2rem;
+    border: 0.5rem #333 solid;
 }
-
-h1 {
-    color: #FFA500;
+#images-list {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
-p {
-    color: #000080;
+#header {
+    text-align: center;
 }
-
-button {
-    background-color: #000080;
-    color: #FFFFFF;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
+#annotation-tool-container {
+    margin: auto;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
 }
-
-button:hover {
-    background-color: #FFA500;
+#data-sources {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1rem;
+}
+#labels {
+    margin: auto;
+    align-items: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+#labels button {
+    margin: 2px;
+}
+#editor {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
