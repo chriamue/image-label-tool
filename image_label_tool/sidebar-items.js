@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":[["init_label_tool","init label tool and start app on given root html element"]],"type":[["Annotation","annotation is an object bounding box in image and class type"],["Class","object class id"]]};
+window.SIDEBAR_ITEMS = {"fn":[["init_label_tool","init label tool and start app on given root html element"]],"mod":[["prelude","the image label tool prelude"]],"type":[["Annotation","annotation is an object bounding box in image and class type"],["Class","object class id"]]};
