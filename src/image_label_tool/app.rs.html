@@ -136,7 +136,46 @@
 <span id="136">136</span>
 <span id="137">137</span>
 <span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+<span id="160">160</span>
+<span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
+<span id="176">176</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::annotated_image::AnnotatedImage;
+<span class="kw">use </span><span class="kw">crate</span>::download::download_bytes;
 <span class="kw">use </span><span class="kw">crate</span>::editor::Editor;
 <span class="kw">use </span><span class="kw">crate</span>::header::Header;
 <span class="kw">use </span><span class="kw">crate</span>::images_list::ImagesList;
@@ -159,11 +198,27 @@
     NewAnnotation(Annotation),
     AddImage(),
     ImageSelected(usize),
+    DownloadAnnotations,
 }
 
 <span class="attribute">#[derive(Clone, PartialEq, Properties)]
 </span><span class="kw">pub struct </span>Props {
     <span class="kw">pub </span>label_tool: LabelTool,
+}
+
+<span class="kw">pub fn </span>format_annotation(annotation: <span class="kw-2">&amp;</span>Annotation, labels: <span class="kw-2">&amp;</span>Vec&lt;String&gt;) -&gt; String {
+    <span class="kw">let </span>(bbox, class) = annotation;
+    <span class="macro">format!</span>(
+        <span class="string">&quot;{} {} {} {} {}&quot;</span>,
+        labels[<span class="kw-2">*</span>class <span class="kw">as </span>usize], bbox.x <span class="kw">as </span>i32, bbox.y <span class="kw">as </span>i32, bbox.w <span class="kw">as </span>i32, bbox.h <span class="kw">as </span>i32
+    )
+}
+
+<span class="kw">pub fn </span>format_annotations(annotations: <span class="kw-2">&amp;</span>Vec&lt;Annotation&gt;, labels: <span class="kw-2">&amp;</span>Vec&lt;String&gt;) -&gt; Vec&lt;String&gt; {
+    annotations
+        .iter()
+        .map(|annotation| format_annotation(annotation, labels))
+        .collect::&lt;Vec&lt;String&gt;&gt;()
 }
 
 <span class="kw">impl </span>Component <span class="kw">for </span>App {
@@ -218,6 +273,22 @@
                 <span class="self">self</span>.current = index;
                 <span class="bool-val">true
             </span>}
+            Msg::DownloadAnnotations =&gt; {
+                <span class="kw">let </span>annotated_images = ctx
+                    .props()
+                    .label_tool
+                    .annotated_images()
+                    .lock()
+                    .unwrap()
+                    .clone();
+                <span class="kw">let </span>annotations = annotated_images
+                    .get(<span class="self">self</span>.current)
+                    .unwrap()
+                    .get_annotations();
+                <span class="kw">let </span>file_data = format_annotations(<span class="kw-2">&amp;</span>annotations, <span class="kw-2">&amp;</span><span class="self">self</span>.labels).join(<span class="string">&quot;\n&quot;</span>);
+                download_bytes(file_data.as_bytes(), <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}.txt&quot;</span>, <span class="string">&quot;annotations&quot;</span>));
+                <span class="bool-val">true
+            </span>}
         }
     }
 
@@ -229,6 +300,8 @@
         <span class="kw">let </span>on_label_change = ctx.link().callback(Msg::LabelChanged);
         <span class="kw">let </span>on_add_image = ctx.link().callback(|()| Msg::AddImage());
         <span class="kw">let </span>on_image_selected = ctx.link().callback(Msg::ImageSelected);
+        <span class="kw">let </span>on_download_annotations = ctx.link().callback(|<span class="kw">_</span>| Msg::DownloadAnnotations);
+
         <span class="kw">let </span>annotated_images = ctx
             .props()
             .label_tool
@@ -252,6 +325,9 @@
             &lt;Labels onchange={on_label_change} label={<span class="self">self</span>.label.clone()} labels={<span class="self">self</span>.labels.clone()} /&gt;
             &lt;ImagesList images={annotated_images} onaddimage={on_add_image} current={<span class="self">self</span>.current} onimageselected={on_image_selected}/&gt;
             &lt;Editor label={<span class="self">self</span>.label.clone()} labels={<span class="self">self</span>.labels.clone()} {image} {annotations} onchange={on_new_annotation}/&gt;
+            &lt;button <span class="kw">type</span>=<span class="string">&quot;button&quot; </span>class=<span class="string">&quot;btn btn-success&quot; </span>onclick={on_download_annotations}&gt;
+                { <span class="string">&quot;Download Annotations&quot; </span>}
+            &lt;/button&gt;
             &lt;/&gt;
         }
     }
