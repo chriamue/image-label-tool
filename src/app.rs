@@ -8,6 +8,7 @@ use crate::label_tool::LabelTool;
 use crate::labels::Labels;
 use crate::upload_annotations::UploadAnnotations;
 use crate::upload_image::UploadImage;
+use crate::use_canvas_image::UseCanvasImage;
 use crate::Annotation;
 use image::DynamicImage;
 use yew::prelude::*;
@@ -32,6 +33,7 @@ pub enum Msg {
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
     pub label_tool: LabelTool,
+    pub canvas_element_id: Option<String>,
 }
 
 pub fn format_annotation(annotation: &Annotation, labels: &Vec<String>) -> String {
@@ -191,10 +193,18 @@ impl Component for App {
             None => DynamicImage::ImageRgb8(image::ImageBuffer::new(100, 100)),
         };
 
+        let fetch_image = match &ctx.props().canvas_element_id {
+            Some(element_id) => {
+                html!(<UseCanvasImage element_id={element_id.to_string()} onchange={on_image_change.clone()} />)
+            }
+            None => html!(),
+        };
+
         html! {
             <>
             <Header />
             <div id="data-sources">
+                {fetch_image}
                 <UploadImage onchange={on_image_change}/>
                 <UploadAnnotations onchange={on_annotations_change}/>
             </div>
@@ -217,14 +227,29 @@ mod tests {
     #[wasm_bindgen_test]
     async fn test_render() {
         let label_tool = LabelTool::default();
-        let rendered = yew::LocalServerRenderer::<App>::with_props(Props { label_tool })
-            .render()
-            .await;
+        let rendered = yew::LocalServerRenderer::<App>::with_props(Props {
+            label_tool,
+            canvas_element_id: None,
+        })
+        .render()
+        .await;
         assert!(rendered.contains("<h1>Image Label Tool</h1>"));
         assert!(rendered.contains("Upload an image file"));
         assert!(rendered.contains("none"));
         assert!(rendered.contains("object1"));
         assert!(rendered.contains("Add Image"));
         assert!(rendered.contains("Download Annotations"));
+    }
+
+    #[wasm_bindgen_test]
+    async fn test_render_with_canvas_element_id() {
+        let label_tool = LabelTool::default();
+        let rendered = yew::LocalServerRenderer::<App>::with_props(Props {
+            label_tool,
+            canvas_element_id: Some("canvas".to_string()),
+        })
+        .render()
+        .await;
+        assert!(rendered.contains("Get Image"));
     }
 }

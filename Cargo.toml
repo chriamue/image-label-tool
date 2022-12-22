@@ -28,6 +28,7 @@ web-sys = { version = "0.3.59", features = [
     "HtmlAnchorElement",
     "HtmlCanvasElement",
     "CssStyleDeclaration",
+    "CanvasRenderingContext2d",
     "ImageData",
 ] }
 yew = { version = "0.20.0", features = ["csr"] }

@@ -17,6 +17,7 @@ mod label_tool;
 mod labels;
 mod upload_annotations;
 mod upload_image;
+mod use_canvas_image;
 mod utils;
 
 /// object class id
@@ -26,7 +27,11 @@ pub type Annotation = (bbox::BBox, Class);
 
 #[wasm_bindgen]
 /// init label tool and start app on given root html element
-pub fn init_label_tool(root: web_sys::Element, label_tool: Option<LabelTool>) -> LabelTool {
+pub fn init_label_tool(
+    root: web_sys::Element,
+    label_tool: Option<LabelTool>,
+    canvas_element_id: Option<String>,
+) -> LabelTool {
     use console_error_panic_hook;
     console_error_panic_hook::set_once();
     let label_tool = label_tool.unwrap_or_default();
@@ -34,6 +39,7 @@ pub fn init_label_tool(root: web_sys::Element, label_tool: Option<LabelTool>) ->
         root,
         app::Props {
             label_tool: label_tool.clone(),
+            canvas_element_id,
         },
     )
     .render();
