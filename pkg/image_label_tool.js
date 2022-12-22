@@ -220,18 +220,31 @@ function __wbg_adapter_21(arg0, arg1, arg2) {
     wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h48994f39885744d1(arg0, arg1, addHeapObject(arg2));
 }
 
+function isLikeNone(x) {
+    return x === undefined || x === null;
+}
+
+function _assertClass(instance, klass) {
+    if (!(instance instanceof klass)) {
+        throw new Error(`expected instance of ${klass.name}`);
+    }
+    return instance.ptr;
+}
 /**
 * init label tool and start app on given root html element
 * @param {Element} root
+* @param {LabelTool | undefined} label_tool
 * @returns {LabelTool}
 */
-export function init_label_tool(root) {
-    const ret = wasm.init_label_tool(addHeapObject(root));
+export function init_label_tool(root, label_tool) {
+    let ptr0 = 0;
+    if (!isLikeNone(label_tool)) {
+        _assertClass(label_tool, LabelTool);
+        ptr0 = label_tool.ptr;
+        label_tool.ptr = 0;
+    }
+    const ret = wasm.init_label_tool(addHeapObject(root), ptr0);
     return LabelTool.__wrap(ret);
-}
-
-function isLikeNone(x) {
-    return x === undefined || x === null;
 }
 
 let cachedUint32Memory0 = new Uint32Array();
@@ -775,12 +788,12 @@ function getImports() {
         const ret = wasm.memory;
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper650 = function(arg0, arg1, arg2) {
-        const ret = makeMutClosure(arg0, arg1, 297, __wbg_adapter_18);
+    imports.wbg.__wbindgen_closure_wrapper652 = function(arg0, arg1, arg2) {
+        const ret = makeMutClosure(arg0, arg1, 298, __wbg_adapter_18);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1031 = function(arg0, arg1, arg2) {
-        const ret = makeMutClosure(arg0, arg1, 429, __wbg_adapter_21);
+    imports.wbg.__wbindgen_closure_wrapper1033 = function(arg0, arg1, arg2) {
+        const ret = makeMutClosure(arg0, arg1, 430, __wbg_adapter_21);
         return addHeapObject(ret);
     };
 
