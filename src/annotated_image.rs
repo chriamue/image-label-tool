@@ -3,6 +3,7 @@ use image::DynamicImage;
 use std::sync::{Arc, Mutex};
 use wasm_bindgen::prelude::*;
 
+/// Image with Annotations
 #[wasm_bindgen]
 #[derive(Debug, Clone)]
 pub struct AnnotatedImage {
@@ -11,6 +12,7 @@ pub struct AnnotatedImage {
 }
 
 impl AnnotatedImage {
+    /// Create a new AnnotatedImage
     pub fn new() -> AnnotatedImage {
         AnnotatedImage {
             image: Arc::new(Mutex::new(DynamicImage::new_rgb8(1, 1))),
@@ -18,26 +20,32 @@ impl AnnotatedImage {
         }
     }
 
+    /// sets the image
     pub fn set_image(&self, image: DynamicImage) {
         *self.image.lock().unwrap() = image;
     }
 
+    /// adds an annotation
     pub fn push(&self, annotation: Annotation) {
         self.annotations.lock().unwrap().push(annotation);
     }
 
+    /// removes all annotations
     pub fn clear(&self) {
         self.annotations.lock().unwrap().clear();
     }
 
+    /// len of all annotations
     pub fn len(&self) -> usize {
         self.annotations.lock().unwrap().len()
     }
 
+    /// returns all annotations
     pub fn get_annotations(&self) -> Vec<Annotation> {
         self.annotations.lock().unwrap().clone()
     }
 
+    /// returns the image
     pub fn get_image(&self) -> DynamicImage {
         self.image.lock().unwrap().clone()
     }
@@ -45,6 +53,7 @@ impl AnnotatedImage {
 
 #[wasm_bindgen]
 impl AnnotatedImage {
+    /// constructor of AnnotatedImages for wasm
     #[wasm_bindgen(constructor)]
     pub fn constructor() -> AnnotatedImage {
         Self::new()

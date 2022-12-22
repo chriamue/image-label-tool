@@ -42,8 +42,9 @@ pub fn init_label_tool(root: web_sys::Element) -> LabelTool {
 
 /// the image label tool prelude
 pub mod prelude {
-    pub use crate::app::App;
     pub use crate::annotated_image::AnnotatedImage;
+    pub use crate::app::App;
+    pub use crate::bbox::BBox;
     pub use crate::init_label_tool;
     pub use crate::label_tool::LabelTool;
     pub use crate::Annotation;
