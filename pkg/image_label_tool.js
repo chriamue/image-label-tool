@@ -261,6 +261,7 @@ function handleError(f, args) {
     }
 }
 /**
+* Image with Annotations
 */
 export class AnnotatedImage {
 
@@ -283,6 +284,7 @@ export class AnnotatedImage {
         wasm.__wbg_annotatedimage_free(ptr);
     }
     /**
+    * constructor of AnnotatedImages for wasm
     */
     constructor() {
         const ret = wasm.annotatedimage_constructor();

@@ -7,10 +7,12 @@
 */
 export function init_label_tool(root: Element): LabelTool;
 /**
+* Image with Annotations
 */
 export class AnnotatedImage {
   free(): void;
 /**
+* constructor of AnnotatedImages for wasm
 */
   constructor();
 }
