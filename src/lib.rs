@@ -26,10 +26,10 @@ pub type Annotation = (bbox::BBox, Class);
 
 #[wasm_bindgen]
 /// init label tool and start app on given root html element
-pub fn init_label_tool(root: web_sys::Element) -> LabelTool {
+pub fn init_label_tool(root: web_sys::Element, label_tool: Option<LabelTool>) -> LabelTool {
     use console_error_panic_hook;
     console_error_panic_hook::set_once();
-    let label_tool = LabelTool::default();
+    let label_tool = label_tool.unwrap_or_default();
     yew::Renderer::<App>::with_root_and_props(
         root,
         app::Props {
