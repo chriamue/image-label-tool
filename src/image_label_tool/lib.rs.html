@@ -83,10 +83,10 @@
 
 <span class="attribute">#[wasm_bindgen]
 </span><span class="doccomment">/// init label tool and start app on given root html element
-</span><span class="kw">pub fn </span>init_label_tool(root: web_sys::Element) -&gt; LabelTool {
+</span><span class="kw">pub fn </span>init_label_tool(root: web_sys::Element, label_tool: <span class="prelude-ty">Option</span>&lt;LabelTool&gt;) -&gt; LabelTool {
     <span class="kw">use </span>console_error_panic_hook;
     console_error_panic_hook::set_once();
-    <span class="kw">let </span>label_tool = LabelTool::default();
+    <span class="kw">let </span>label_tool = label_tool.unwrap_or_default();
     yew::Renderer::&lt;App&gt;::with_root_and_props(
         root,
         app::Props {
