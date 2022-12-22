@@ -96,12 +96,22 @@
 <span id="96">96</span>
 <span id="97">97</span>
 <span id="98">98</span>
+<span id="99">99</span>
+<span id="100">100</span>
+<span id="101">101</span>
+<span id="102">102</span>
+<span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::Annotation;
 <span class="kw">use </span>image::DynamicImage;
 <span class="kw">use </span>std::sync::{Arc, Mutex};
 <span class="kw">use </span>wasm_bindgen::prelude::<span class="kw-2">*</span>;
 
-<span class="attribute">#[wasm_bindgen]
+<span class="doccomment">/// Image with Annotations
+</span><span class="attribute">#[wasm_bindgen]
 #[derive(Debug, Clone)]
 </span><span class="kw">pub struct </span>AnnotatedImage {
     image: Arc&lt;Mutex&lt;DynamicImage&gt;&gt;,
@@ -109,41 +119,49 @@
 }
 
 <span class="kw">impl </span>AnnotatedImage {
-    <span class="kw">pub fn </span>new() -&gt; AnnotatedImage {
+    <span class="doccomment">/// Create a new AnnotatedImage
+    </span><span class="kw">pub fn </span>new() -&gt; AnnotatedImage {
         AnnotatedImage {
             image: Arc::new(Mutex::new(DynamicImage::new_rgb8(<span class="number">1</span>, <span class="number">1</span>))),
             annotations: Arc::new(Mutex::new(Vec::new())),
         }
     }
 
-    <span class="kw">pub fn </span>set_image(<span class="kw-2">&amp;</span><span class="self">self</span>, image: DynamicImage) {
+    <span class="doccomment">/// sets the image
+    </span><span class="kw">pub fn </span>set_image(<span class="kw-2">&amp;</span><span class="self">self</span>, image: DynamicImage) {
         <span class="kw-2">*</span><span class="self">self</span>.image.lock().unwrap() = image;
     }
 
-    <span class="kw">pub fn </span>push(<span class="kw-2">&amp;</span><span class="self">self</span>, annotation: Annotation) {
+    <span class="doccomment">/// adds an annotation
+    </span><span class="kw">pub fn </span>push(<span class="kw-2">&amp;</span><span class="self">self</span>, annotation: Annotation) {
         <span class="self">self</span>.annotations.lock().unwrap().push(annotation);
     }
 
-    <span class="kw">pub fn </span>clear(<span class="kw-2">&amp;</span><span class="self">self</span>) {
+    <span class="doccomment">/// removes all annotations
+    </span><span class="kw">pub fn </span>clear(<span class="kw-2">&amp;</span><span class="self">self</span>) {
         <span class="self">self</span>.annotations.lock().unwrap().clear();
     }
 
-    <span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+    <span class="doccomment">/// len of all annotations
+    </span><span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="self">self</span>.annotations.lock().unwrap().len()
     }
 
-    <span class="kw">pub fn </span>get_annotations(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;Annotation&gt; {
+    <span class="doccomment">/// returns all annotations
+    </span><span class="kw">pub fn </span>get_annotations(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;Annotation&gt; {
         <span class="self">self</span>.annotations.lock().unwrap().clone()
     }
 
-    <span class="kw">pub fn </span>get_image(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DynamicImage {
+    <span class="doccomment">/// returns the image
+    </span><span class="kw">pub fn </span>get_image(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DynamicImage {
         <span class="self">self</span>.image.lock().unwrap().clone()
     }
 }
 
 <span class="attribute">#[wasm_bindgen]
 </span><span class="kw">impl </span>AnnotatedImage {
-    <span class="attribute">#[wasm_bindgen(constructor)]
+    <span class="doccomment">/// constructor of AnnotatedImages for wasm
+    </span><span class="attribute">#[wasm_bindgen(constructor)]
     </span><span class="kw">pub fn </span>constructor() -&gt; AnnotatedImage {
         <span class="self">Self</span>::new()
     }
