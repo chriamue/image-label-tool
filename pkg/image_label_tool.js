@@ -282,7 +282,7 @@ function passArray8ToWasm0(arg, malloc) {
     return ptr;
 }
 /**
-* Image with Annotations
+* Represents an image with associated annotations.
 */
 export class AnnotatedImage {
 
@@ -851,12 +851,12 @@ function getImports() {
         const ret = wasm.memory;
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper733 = function(arg0, arg1, arg2) {
-        const ret = makeMutClosure(arg0, arg1, 350, __wbg_adapter_18);
+    imports.wbg.__wbindgen_closure_wrapper730 = function(arg0, arg1, arg2) {
+        const ret = makeMutClosure(arg0, arg1, 351, __wbg_adapter_18);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1101 = function(arg0, arg1, arg2) {
-        const ret = makeMutClosure(arg0, arg1, 475, __wbg_adapter_21);
+    imports.wbg.__wbindgen_closure_wrapper1098 = function(arg0, arg1, arg2) {
+        const ret = makeMutClosure(arg0, arg1, 476, __wbg_adapter_21);
         return addHeapObject(ret);
     };
 

@@ -9,7 +9,7 @@
 */
 export function init_label_tool(root: Element, label_tool?: LabelTool, canvas_element_id?: string): LabelTool;
 /**
-* Image with Annotations
+* Represents an image with associated annotations.
 */
 export class AnnotatedImage {
   free(): void;
@@ -33,11 +33,11 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
+  readonly __wbg_annotatedimage_free: (a: number) => void;
+  readonly annotatedimage_constructor: () => number;
   readonly __wbg_labeltool_free: (a: number) => void;
   readonly labeltool_new: () => number;
   readonly init_label_tool: (a: number, b: number, c: number, d: number) => number;
-  readonly __wbg_annotatedimage_free: (a: number) => void;
-  readonly annotatedimage_constructor: () => number;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
