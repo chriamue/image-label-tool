@@ -174,7 +174,8 @@ impl Component for App {
                     .borrow()
                     .get(self.current)
                     .unwrap()
-                    .get_annotations();
+                    .get_annotations()
+                    .clone();
                 let file_data = format_annotations(&annotations, &self.labels).join("\n");
                 download_bytes(file_data.as_bytes(), &format!("{}.txt", "annotations"));
                 true
@@ -207,9 +208,10 @@ impl Component for App {
             .borrow()
             .get(self.current)
             .unwrap()
-            .get_annotations();
+            .get_annotations()
+            .clone();
         let image = match ctx.props().label_tool.get_annotated_image(self.current) {
-            Some(annotated_image) => annotated_image.get_image(),
+            Some(annotated_image) => annotated_image.get_image().clone(),
             None => DynamicImage::ImageRgb8(image::ImageBuffer::new(100, 100)),
         };
 

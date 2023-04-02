@@ -1,53 +1,54 @@
 use crate::Annotation;
 use image::DynamicImage;
-use std::sync::{Arc, Mutex};
+use std::cell::{Ref, RefCell};
+use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 
-/// Image with Annotations
+/// Represents an image with associated annotations.
 #[wasm_bindgen]
 #[derive(Debug, Clone)]
 pub struct AnnotatedImage {
-    image: Arc<Mutex<DynamicImage>>,
-    annotations: Arc<Mutex<Vec<Annotation>>>,
+    image: Rc<RefCell<DynamicImage>>,
+    annotations: Rc<RefCell<Vec<Annotation>>>,
 }
 
 impl AnnotatedImage {
-    /// Create a new AnnotatedImage
+    /// Creates a new `AnnotatedImage` with an empty image and no annotations.
     pub fn new() -> AnnotatedImage {
         AnnotatedImage {
-            image: Arc::new(Mutex::new(DynamicImage::new_rgb8(1, 1))),
-            annotations: Arc::new(Mutex::new(Vec::new())),
+            image: Rc::new(RefCell::new(DynamicImage::new_rgb8(1, 1))),
+            annotations: Rc::new(RefCell::new(Vec::new())),
         }
     }
 
-    /// sets the image
+    /// Sets the image for the `AnnotatedImage`.
     pub fn set_image(&self, image: DynamicImage) {
-        *self.image.lock().unwrap() = image;
+        *self.image.borrow_mut() = image;
     }
 
-    /// adds an annotation
+    /// Adds an annotation to the `AnnotatedImage`.
     pub fn push(&self, annotation: Annotation) {
-        self.annotations.lock().unwrap().push(annotation);
+        self.annotations.borrow_mut().push(annotation);
     }
 
-    /// removes all annotations
+    /// Removes all annotations from the `AnnotatedImage`.
     pub fn clear(&self) {
-        self.annotations.lock().unwrap().clear();
+        self.annotations.borrow_mut().clear();
     }
 
-    /// len of all annotations
+    /// Returns the number of annotations in the `AnnotatedImage`.
     pub fn len(&self) -> usize {
-        self.annotations.lock().unwrap().len()
+        self.annotations.borrow().len()
     }
 
-    /// returns all annotations
-    pub fn get_annotations(&self) -> Vec<Annotation> {
-        self.annotations.lock().unwrap().clone()
+    /// Returns a reference to the annotations in the `AnnotatedImage`.
+    pub fn get_annotations(&self) -> Ref<Vec<Annotation>> {
+        self.annotations.borrow()
     }
 
     /// returns the image
-    pub fn get_image(&self) -> DynamicImage {
-        self.image.lock().unwrap().clone()
+    pub fn get_image(&self) -> Ref<DynamicImage> {
+        self.image.borrow()
     }
 }
 
