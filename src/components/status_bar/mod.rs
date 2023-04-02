@@ -34,9 +34,9 @@ impl Component for StatusBar {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use wasm_bindgen_test::*;
     use yew::LocalServerRenderer;
 
+    #[crate::test]
     async fn test_render() {
         let image_count = 5;
         let rendered = LocalServerRenderer::<StatusBar>::with_props(Props { image_count })
@@ -46,13 +46,4 @@ mod tests {
         assert!(rendered.contains("Number of images: 5"));
     }
 
-    #[wasm_bindgen_test]
-    async fn wasm_test_render() {
-        test_render().await
-    }
-
-    #[tokio::test]
-    async fn tokio_test_render() {
-        test_render().await
-    }
 }

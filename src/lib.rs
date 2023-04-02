@@ -1,6 +1,9 @@
 #![warn(missing_docs)]
 #![doc = include_str!("../README.md")]
 
+#[cfg(test)]
+pub use combined_test_macro::combined_test as test;
+
 use wasm_bindgen::prelude::*;
 
 use crate::app::App;

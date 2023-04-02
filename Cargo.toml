@@ -34,6 +34,7 @@ web-sys = { version = "0.3.59", features = [
 yew = { version = "0.20.0", features = ["csr"] }
 
 [dev-dependencies]
+combined_test_macro = { path = "combined_test_macro" }
+tokio = { version = "1.13", features = ["rt", "macros"] }
 wasm-bindgen-test = "0.3.33"
 yew = { version = "0.20.0", features = ["csr", "ssr"] }
-tokio = { version = "1.13", features = ["rt", "macros"] }
