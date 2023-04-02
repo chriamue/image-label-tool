@@ -17,7 +17,9 @@
   ],
   "module": "image_label_tool.js",
   "types": "image_label_tool.d.ts",
-  "sideEffects": false,
+  "sideEffects": [
+    "./snippets/*"
+  ],
   "keywords": [
     "machine-learning",
     "label-tool",
