@@ -96,7 +96,6 @@
 <a href="#96" id="96">96</a>
 <a href="#97" id="97">97</a>
 <a href="#98" id="98">98</a>
-<a href="#99" id="99">99</a>
 </pre><pre class="rust"><code><span class="kw">use </span>image::{DynamicImage, ImageOutputFormat, RgbaImage};
 <span class="kw">use </span>std::io::Cursor;
 <span class="kw">use </span>wasm_bindgen::JsCast;
@@ -182,9 +181,8 @@
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use </span>wasm_bindgen_test::<span class="kw-2">*</span>;
 
-    <span class="attr">#[wasm_bindgen_test]
+    <span class="attr">#[<span class="kw">crate</span>::test]
     </span><span class="kw">fn </span>test_convert_image_data_to_png_data() {
         <span class="kw">use </span>web_sys::ImageData;
         <span class="kw">let </span>image_data = ImageData::new_with_sw(<span class="number">100</span>, <span class="number">100</span>).unwrap();

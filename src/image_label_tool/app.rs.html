@@ -252,7 +252,6 @@
 <a href="#252" id="252">252</a>
 <a href="#253" id="253">253</a>
 <a href="#254" id="254">254</a>
-<a href="#255" id="255">255</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::annotated_image::AnnotatedImage;
 <span class="kw">use </span><span class="kw">crate</span>::bbox::BBox;
 <span class="kw">use </span><span class="kw">crate</span>::download::download_bytes;
@@ -477,9 +476,8 @@
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use </span>wasm_bindgen_test::<span class="kw-2">*</span>;
 
-    <span class="attr">#[wasm_bindgen_test]
+    <span class="attr">#[<span class="kw">crate</span>::test]
     </span><span class="kw">async fn </span>test_render() {
         <span class="kw">let </span>label_tool = LabelTool::default();
         <span class="kw">let </span>rendered = yew::LocalServerRenderer::&lt;App&gt;::with_props(Props {
@@ -496,7 +494,7 @@
         <span class="macro">assert!</span>(rendered.contains(<span class="string">&quot;Download Annotations&quot;</span>));
     }
 
-    <span class="attr">#[wasm_bindgen_test]
+    <span class="attr">#[<span class="kw">crate</span>::test]
     </span><span class="kw">async fn </span>test_render_with_canvas_element_id() {
         <span class="kw">let </span>label_tool = LabelTool::default();
         <span class="kw">let </span>rendered = yew::LocalServerRenderer::&lt;App&gt;::with_props(Props {
