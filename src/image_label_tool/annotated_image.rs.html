@@ -183,7 +183,7 @@
 </span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="attr">#[test]
+    <span class="attr">#[<span class="kw">crate</span>::test]
     </span><span class="kw">fn </span>test_len() {
         <span class="kw">let </span>annotations = AnnotatedImage::new();
         <span class="kw">let </span>annotation = Annotation::default();
@@ -191,7 +191,7 @@
         <span class="macro">assert_eq!</span>(<span class="number">1</span>, annotations.len());
     }
 
-    <span class="attr">#[test]
+    <span class="attr">#[<span class="kw">crate</span>::test]
     </span><span class="kw">fn </span>test_clear() {
         <span class="kw">let </span>annotations = AnnotatedImage::new();
         <span class="kw">let </span>annotation = Annotation::default();
@@ -201,7 +201,7 @@
         <span class="macro">assert_eq!</span>(<span class="number">0</span>, annotations.len());
     }
 
-    <span class="attr">#[test]
+    <span class="attr">#[<span class="kw">crate</span>::test]
     </span><span class="kw">fn </span>test_default() {
         <span class="kw">let </span>annotations = AnnotatedImage::default();
         <span class="kw">let </span>annotation = Annotation::default();

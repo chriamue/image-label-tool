@@ -106,7 +106,24 @@
 <a href="#106" id="106">106</a>
 <a href="#107" id="107">107</a>
 <a href="#108" id="108">108</a>
-</pre><pre class="rust"><code><span class="kw">use crate</span>::{annotated_image::AnnotatedImage, Annotation};
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a>
+<a href="#112" id="112">112</a>
+<a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
+</pre><pre class="rust"><code><span class="kw">use crate</span>::{
+    annotated_image::AnnotatedImage,
+    stores::{ImageStore, ImageStoreMsg},
+    Annotation,
+};
 <span class="kw">use </span>std::{
     ops::Deref,
     sync::{Arc, Mutex},
@@ -117,42 +134,51 @@
 </span><span class="attr">#[wasm_bindgen]
 #[derive(Debug, Clone)]
 </span><span class="kw">pub struct </span>LabelTool {
-    annotated_images: Arc&lt;Mutex&lt;Vec&lt;AnnotatedImage&gt;&gt;&gt;,
+    annotated_images: Arc&lt;Mutex&lt;ImageStore&gt;&gt;,
 }
 
 <span class="kw">impl </span>LabelTool {
     <span class="doccomment">/// adds new annotated image
     </span><span class="kw">pub fn </span>push(<span class="kw-2">&amp;</span><span class="self">self</span>, annotated_image: AnnotatedImage) {
-        <span class="self">self</span>.annotated_images.lock().unwrap().push(annotated_image);
+        <span class="self">self</span>.annotated_images
+            .lock()
+            .unwrap()
+            .update(ImageStoreMsg::AddImage(annotated_image));
     }
 
     <span class="doccomment">/// get annotated images
-    </span><span class="kw">pub fn </span>annotated_images(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Arc&lt;Mutex&lt;Vec&lt;AnnotatedImage&gt;&gt;&gt; {
+    </span><span class="kw">pub fn </span>annotated_images(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Arc&lt;Mutex&lt;ImageStore&gt;&gt; {
         <span class="self">self</span>.annotated_images.clone()
     }
 
     <span class="doccomment">/// adds annotation to annotated image selected by index
     </span><span class="kw">pub fn </span>add_annotation(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize, annotation: Annotation) {
-        <span class="kw">let </span><span class="kw-2">mut </span>locked = <span class="self">self</span>.annotated_images.lock().unwrap();
-        <span class="kw">let </span>annotations = locked.get_mut(index).unwrap();
+        <span class="kw">let </span>locked = <span class="self">self</span>.annotated_images.lock().unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>binding = locked.images.borrow_mut();
+        <span class="kw">let </span>annotations = binding.get_mut(index).unwrap();
         annotations.push(annotation);
     }
 
     <span class="doccomment">/// gets annotated image selected by index
     </span><span class="kw">pub fn </span>get_annotated_image(<span class="kw-2">&amp;</span><span class="self">self</span>, index: usize) -&gt; <span class="prelude-ty">Option</span>&lt;AnnotatedImage&gt; {
-        <span class="kw">let </span>locked = <span class="self">self</span>.annotated_images.lock().unwrap();
-        locked.get(index).cloned()
+        <span class="self">self</span>.annotated_images
+            .lock()
+            .unwrap()
+            .images
+            .borrow()
+            .get(index)
+            .cloned()
     }
 
     <span class="doccomment">/// clears all annotated images
     </span><span class="kw">pub fn </span>clear(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="kw">let </span><span class="kw-2">mut </span>locked = <span class="self">self</span>.annotated_images.lock().unwrap();
-        locked.clear();
+        <span class="kw">let </span>locked = <span class="self">self</span>.annotated_images.lock().unwrap();
+        locked.images.borrow_mut().clear();
     }
 
     <span class="doccomment">/// size of annotated images
     </span><span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
-        <span class="self">self</span>.annotated_images.lock().unwrap().len()
+        <span class="self">self</span>.annotated_images.lock().unwrap().images.borrow().len()
     }
 }
 
@@ -178,7 +204,7 @@
     </span><span class="attr">#[wasm_bindgen(constructor)]
     </span><span class="kw">pub fn </span>new() -&gt; LabelTool {
         LabelTool {
-            annotated_images: Arc::new(Mutex::new(Vec::new())),
+            annotated_images: Arc::new(Mutex::new(ImageStore::new())),
         }
     }
 }
