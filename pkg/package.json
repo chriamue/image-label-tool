@@ -4,7 +4,7 @@
     "Christian <chriamue@gmail.com>"
   ],
   "description": "Create bounding boxes around objects in an image and classify them according to your desired labels.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "repository": {
     "type": "git",
