@@ -72,9 +72,8 @@ impl Component for UploadAnnotations {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use wasm_bindgen_test::*;
 
-    #[wasm_bindgen_test]
+    #[crate::test]
     async fn test_render() {
         let rendered = yew::LocalServerRenderer::<UploadAnnotations>::with_props(Props {
             onchange: Callback::default(),

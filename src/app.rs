@@ -222,9 +222,8 @@ impl Component for App {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use wasm_bindgen_test::*;
 
-    #[wasm_bindgen_test]
+    #[crate::test]
     async fn test_render() {
         let label_tool = LabelTool::default();
         let rendered = yew::LocalServerRenderer::<App>::with_props(Props {
@@ -241,7 +240,7 @@ mod tests {
         assert!(rendered.contains("Download Annotations"));
     }
 
-    #[wasm_bindgen_test]
+    #[crate::test]
     async fn test_render_with_canvas_element_id() {
         let label_tool = LabelTool::default();
         let rendered = yew::LocalServerRenderer::<App>::with_props(Props {

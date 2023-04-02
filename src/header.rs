@@ -22,9 +22,8 @@ impl Component for Header {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use wasm_bindgen_test::*;
 
-    #[wasm_bindgen_test]
+    #[crate::test]
     async fn test_render() {
         let rendered = yew::LocalServerRenderer::<Header>::new().render().await;
         assert!(rendered.contains("<h1>Image Label Tool</h1>"));

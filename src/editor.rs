@@ -132,7 +132,6 @@ impl Component for Editor {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use wasm_bindgen_test::*;
 
     #[test]
     fn test_format_annotations() {
@@ -169,7 +168,7 @@ mod tests {
         assert_eq!("other 0 0 1 1".to_string(), formatted);
     }
 
-    #[wasm_bindgen_test]
+    #[crate::test]
     async fn test_render() {
         let det1 = (
             BBox {

@@ -45,5 +45,4 @@ mod tests {
 
         assert!(rendered.contains("Number of images: 5"));
     }
-
 }

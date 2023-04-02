@@ -57,9 +57,8 @@ impl Component for Labels {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use wasm_bindgen_test::*;
 
-    #[wasm_bindgen_test]
+    #[crate::test]
     async fn test_render() {
         let label = "none".to_string();
         let labels: Vec<String> = vec!["none".to_string(), "some".to_string()];

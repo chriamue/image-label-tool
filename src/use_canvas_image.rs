@@ -83,9 +83,8 @@ impl Component for UseCanvasImage {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use wasm_bindgen_test::*;
 
-    #[wasm_bindgen_test]
+    #[crate::test]
     fn test_convert_image_data_to_png_data() {
         use web_sys::ImageData;
         let image_data = ImageData::new_with_sw(100, 100).unwrap();
