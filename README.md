@@ -3,6 +3,7 @@
 [![Github Repo](https://img.shields.io/badge/github-repo-green)](https://github.com/chriamue/image-label-tool/)
 [![Github Pages Build](https://github.com/chriamue/image-label-tool/actions/workflows/gh-pages.yml/badge.svg)](https://chriamue.github.io/image-label-tool/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![codecov](https://codecov.io/gh/chriamue/image-label-tool/branch/main/graph/badge.svg?token=TFJ8UT9W1J)](https://codecov.io/gh/chriamue/image-label-tool)
 [![Demo](https://img.shields.io/badge/Demo-online-green.svg)](https://chriamue.github.io/image-label-tool/)
 [![Doc](https://img.shields.io/badge/Docs-online-green.svg)](https://chriamue.github.io/image-label-tool/image_label_tool/)
 
