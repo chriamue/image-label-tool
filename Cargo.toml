@@ -1,6 +1,6 @@
 [package]
 name = "image-label-tool"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "Create bounding boxes around objects in an image and classify them according to your desired labels."
 authors = ["Christian <chriamue@gmail.com>"]
@@ -36,3 +36,4 @@ yew = { version = "0.20.0", features = ["csr"] }
 [dev-dependencies]
 wasm-bindgen-test = "0.3.33"
 yew = { version = "0.20.0", features = ["csr", "ssr"] }
+tokio = { version = "1.13", features = ["rt", "macros"] }
