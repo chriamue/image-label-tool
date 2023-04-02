@@ -61,6 +61,8 @@
 <a href="#61" id="61">61</a>
 <a href="#62" id="62">62</a>
 <a href="#63" id="63">63</a>
+<a href="#64" id="64">64</a>
+<a href="#65" id="65">65</a>
 </pre><pre class="rust"><code><span class="attr">#![warn(missing_docs)]
 #![doc = <span class="macro">include_str!</span>(<span class="string">&quot;../README.md&quot;</span>)]
 
@@ -72,6 +74,7 @@
 <span class="kw">mod </span>annotated_image;
 <span class="kw">mod </span>app;
 <span class="kw">mod </span>bbox;
+<span class="kw">mod </span>components;
 <span class="kw">mod </span>download;
 <span class="kw">mod </span>editor;
 <span class="kw">mod </span>header;
@@ -114,6 +117,7 @@
     <span class="kw">pub use </span><span class="kw">crate</span>::annotated_image::AnnotatedImage;
     <span class="kw">pub use </span><span class="kw">crate</span>::app::App;
     <span class="kw">pub use </span><span class="kw">crate</span>::bbox::BBox;
+    <span class="kw">pub use </span><span class="kw">crate</span>::components::<span class="kw-2">*</span>;
     <span class="kw">pub use </span><span class="kw">crate</span>::init_label_tool;
     <span class="kw">pub use </span><span class="kw">crate</span>::label_tool::LabelTool;
     <span class="kw">pub use </span><span class="kw">crate</span>::Annotation;

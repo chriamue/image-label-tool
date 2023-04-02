@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":[["AnnotatedImage","Image with Annotations"],["App","The web app"],["BBox","A bounding box struct with mergre functions"],["LabelTool","struct of label tool that manages annotated images"]]};
+window.SIDEBAR_ITEMS = {"mod":[["status_bar",""]],"struct":[["AnnotatedImage","Image with Annotations"],["App","The web app"],["BBox","A bounding box struct with mergre functions"],["LabelTool","struct of label tool that manages annotated images"],["StatusBar","A status bar component that displays the number of images in the image list panel."]]};

@@ -1,3 +1,3 @@
 (function() {var implementors = {
-"image_label_tool":[["impl Component for <a class=\"struct\" href=\"image_label_tool/prelude/struct.App.html\" title=\"struct image_label_tool::prelude::App\">App</a>"]]
+"image_label_tool":[["impl Component for <a class=\"struct\" href=\"image_label_tool/prelude/struct.App.html\" title=\"struct image_label_tool::prelude::App\">App</a>"],["impl Component for <a class=\"struct\" href=\"image_label_tool/prelude/status_bar/struct.StatusBar.html\" title=\"struct image_label_tool::prelude::status_bar::StatusBar\">StatusBar</a>"]]
 };if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

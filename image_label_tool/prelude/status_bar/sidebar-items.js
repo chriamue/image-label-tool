@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":[["Props","The properties for the `StatusBar` component."],["StatusBar","A status bar component that displays the number of images in the image list panel."]]};
