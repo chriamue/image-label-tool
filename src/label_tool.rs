@@ -1,4 +1,8 @@
-use crate::{annotated_image::AnnotatedImage, Annotation};
+use crate::{
+    annotated_image::AnnotatedImage,
+    stores::{ImageStore, ImageStoreMsg},
+    Annotation,
+};
 use std::{
     ops::Deref,
     sync::{Arc, Mutex},
@@ -9,42 +13,51 @@ use wasm_bindgen::prelude::*;
 #[wasm_bindgen]
 #[derive(Debug, Clone)]
 pub struct LabelTool {
-    annotated_images: Arc<Mutex<Vec<AnnotatedImage>>>,
+    annotated_images: Arc<Mutex<ImageStore>>,
 }
 
 impl LabelTool {
     /// adds new annotated image
     pub fn push(&self, annotated_image: AnnotatedImage) {
-        self.annotated_images.lock().unwrap().push(annotated_image);
+        self.annotated_images
+            .lock()
+            .unwrap()
+            .update(ImageStoreMsg::AddImage(annotated_image));
     }
 
     /// get annotated images
-    pub fn annotated_images(&self) -> Arc<Mutex<Vec<AnnotatedImage>>> {
+    pub fn annotated_images(&self) -> Arc<Mutex<ImageStore>> {
         self.annotated_images.clone()
     }
 
     /// adds annotation to annotated image selected by index
     pub fn add_annotation(&self, index: usize, annotation: Annotation) {
-        let mut locked = self.annotated_images.lock().unwrap();
-        let annotations = locked.get_mut(index).unwrap();
+        let locked = self.annotated_images.lock().unwrap();
+        let mut binding = locked.images.borrow_mut();
+        let annotations = binding.get_mut(index).unwrap();
         annotations.push(annotation);
     }
 
     /// gets annotated image selected by index
     pub fn get_annotated_image(&self, index: usize) -> Option<AnnotatedImage> {
-        let locked = self.annotated_images.lock().unwrap();
-        locked.get(index).cloned()
+        self.annotated_images
+            .lock()
+            .unwrap()
+            .images
+            .borrow()
+            .get(index)
+            .cloned()
     }
 
     /// clears all annotated images
     pub fn clear(&self) {
-        let mut locked = self.annotated_images.lock().unwrap();
-        locked.clear();
+        let locked = self.annotated_images.lock().unwrap();
+        locked.images.borrow_mut().clear();
     }
 
     /// size of annotated images
     pub fn len(&self) -> usize {
-        self.annotated_images.lock().unwrap().len()
+        self.annotated_images.lock().unwrap().images.borrow().len()
     }
 }
 
@@ -70,7 +83,7 @@ impl LabelTool {
     #[wasm_bindgen(constructor)]
     pub fn new() -> LabelTool {
         LabelTool {
-            annotated_images: Arc::new(Mutex::new(Vec::new())),
+            annotated_images: Arc::new(Mutex::new(ImageStore::new())),
         }
     }
 }

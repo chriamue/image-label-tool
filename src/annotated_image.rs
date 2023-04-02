@@ -76,7 +76,7 @@ impl Default for AnnotatedImage {
 mod tests {
     use super::*;
 
-    #[test]
+    #[crate::test]
     fn test_len() {
         let annotations = AnnotatedImage::new();
         let annotation = Annotation::default();
@@ -84,7 +84,7 @@ mod tests {
         assert_eq!(1, annotations.len());
     }
 
-    #[test]
+    #[crate::test]
     fn test_clear() {
         let annotations = AnnotatedImage::new();
         let annotation = Annotation::default();
@@ -94,7 +94,7 @@ mod tests {
         assert_eq!(0, annotations.len());
     }
 
-    #[test]
+    #[crate::test]
     fn test_default() {
         let annotations = AnnotatedImage::default();
         let annotation = Annotation::default();

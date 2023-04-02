@@ -16,9 +16,9 @@ mod components;
 mod download;
 mod editor;
 mod header;
-mod images_list;
 mod label_tool;
 mod labels;
+mod stores;
 mod upload_annotations;
 mod upload_image;
 mod use_canvas_image;
@@ -58,6 +58,7 @@ pub mod prelude {
     pub use crate::components::*;
     pub use crate::init_label_tool;
     pub use crate::label_tool::LabelTool;
+    pub use crate::stores::*;
     pub use crate::Annotation;
     pub use crate::Class;
 }

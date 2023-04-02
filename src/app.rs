@@ -1,9 +1,9 @@
 use crate::annotated_image::AnnotatedImage;
 use crate::bbox::BBox;
+use crate::components::ImagesList;
 use crate::download::download_bytes;
 use crate::editor::Editor;
 use crate::header::Header;
-use crate::images_list::ImagesList;
 use crate::label_tool::LabelTool;
 use crate::labels::Labels;
 use crate::upload_annotations::UploadAnnotations;
@@ -74,6 +74,8 @@ impl Component for App {
                     .annotated_images()
                     .lock()
                     .unwrap()
+                    .images
+                    .borrow_mut()
                     .get_mut(self.current)
                     .unwrap()
                     .clear();
@@ -118,13 +120,27 @@ impl Component for App {
                 let img = image::load_from_memory(&data).unwrap();
                 println!("loaded {}", filename);
                 {
-                    let images = ctx.props().label_tool.annotated_images();
-                    let mut annotated_images = images.lock().unwrap();
-                    annotated_images
+                    ctx.props()
+                        .label_tool
+                        .annotated_images()
+                        .lock()
+                        .unwrap()
+                        .images
+                        .borrow_mut()
                         .get_mut(self.current)
                         .unwrap()
                         .set_image(img);
-                    annotated_images.get_mut(self.current).unwrap().clear()
+
+                    ctx.props()
+                        .label_tool
+                        .annotated_images()
+                        .lock()
+                        .unwrap()
+                        .images
+                        .borrow_mut()
+                        .get_mut(self.current)
+                        .unwrap()
+                        .clear();
                 };
                 true
             }
@@ -154,6 +170,8 @@ impl Component for App {
                     .unwrap()
                     .clone();
                 let annotations = annotated_images
+                    .images
+                    .borrow()
                     .get(self.current)
                     .unwrap()
                     .get_annotations();
@@ -185,6 +203,8 @@ impl Component for App {
             .unwrap()
             .clone();
         let annotations = annotated_images
+            .images
+            .borrow()
             .get(self.current)
             .unwrap()
             .get_annotations();
@@ -209,7 +229,7 @@ impl Component for App {
                 <UploadAnnotations onchange={on_annotations_change}/>
             </div>
             <Labels onchange={on_label_change} label={self.label.clone()} labels={self.labels.clone()} />
-            <ImagesList images={annotated_images} onaddimage={on_add_image} current={self.current} onimageselected={on_image_selected}/>
+            <ImagesList image_store={annotated_images} onaddimage={on_add_image} current={self.current} onimageselected={on_image_selected}/>
             <Editor label={self.label.clone()} labels={self.labels.clone()} {image} {annotations} onchange={on_new_annotation}/>
             <button type="button" class="btn btn-success" onclick={on_download_annotations}>
                 { "Download Annotations" }

@@ -1,18 +1,26 @@
-use crate::annotated_image::AnnotatedImage;
 use crate::utils::image_to_base64_image;
+use crate::{annotated_image::AnnotatedImage, stores::ImageStore};
 use yew::{html, Callback, Component, Context, Html, Properties};
 
+/// A component representing a list of images.
 pub struct ImagesList;
 
+/// Messages for updating the `ImagesList` component.
 pub enum Msg {
+    /// Add a new image to the list.
     AddImage,
 }
 
+/// The properties for the `ImagesList` component.
 #[derive(Clone, PartialEq, Properties)]
 pub struct Props {
-    pub images: Vec<AnnotatedImage>,
+    /// The `ImageStore` containing the list of images.
+    pub image_store: ImageStore,
+    /// The index of the currently selected image in the list.
     pub current: usize,
+    /// A callback function to handle the addition of a new image.
     pub onaddimage: Callback<()>,
+    /// A callback function to handle image selection in the list.
     pub onimageselected: Callback<usize>,
 }
 
@@ -66,7 +74,7 @@ impl Component for ImagesList {
                 </button>
             </li>
             {
-                ctx.props().images.clone().iter().enumerate().map(|(i, annotations)| {
+                ctx.props().image_store.images.borrow().iter().enumerate().map(|(i, annotations)| {
                     self.create_image_element(i, annotations, current, ctx.props().onimageselected.clone())
                 }).collect::<Html>()
             }
