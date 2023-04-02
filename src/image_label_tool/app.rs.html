@@ -272,9 +272,11 @@
 <a href="#272" id="272">272</a>
 <a href="#273" id="273">273</a>
 <a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::annotated_image::AnnotatedImage;
 <span class="kw">use </span><span class="kw">crate</span>::bbox::BBox;
-<span class="kw">use </span><span class="kw">crate</span>::components::ImagesList;
+<span class="kw">use </span><span class="kw">crate</span>::components::{ImagesList, StatusBar};
 <span class="kw">use </span><span class="kw">crate</span>::download::download_bytes;
 <span class="kw">use </span><span class="kw">crate</span>::editor::Editor;
 <span class="kw">use </span><span class="kw">crate</span>::header::Header;
@@ -493,6 +495,7 @@
             }
             <span class="prelude-val">None </span>=&gt; <span class="macro">html!</span>(),
         };
+        <span class="kw">let </span>image_count = annotated_images.len();
 
         <span class="macro">html! </span>{
             &lt;&gt;
@@ -508,6 +511,7 @@
             &lt;button <span class="kw">type</span>=<span class="string">&quot;button&quot; </span>class=<span class="string">&quot;btn btn-success&quot; </span>onclick={on_download_annotations}&gt;
                 { <span class="string">&quot;Download Annotations&quot; </span>}
             &lt;/button&gt;
+            &lt;StatusBar {image_count} /&gt;
             &lt;/&gt;
         }
     }
