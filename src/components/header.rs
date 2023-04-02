@@ -1,5 +1,6 @@
 use yew::{html, Component, Context, Html};
 
+/// A header component for the Image Label Tool.
 pub struct Header;
 
 impl Component for Header {
@@ -12,9 +13,9 @@ impl Component for Header {
 
     fn view(&self, _ctx: &Context<Self>) -> Html {
         html! {
-            <div id="header" class="jumbotron mt-4 p-3 mb-5 bg-light rounded shadow">
+            <header class="header">
                 <h1>{"Image Label Tool"}</h1>
-            </div>
+            </header>
         }
     }
 }

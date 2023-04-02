@@ -1,3 +1,4 @@
+use crate::components::AddImageButton;
 use crate::utils::image_to_base64_image;
 use crate::{annotated_image::AnnotatedImage, stores::ImageStore};
 use yew::{html, Callback, Component, Context, Html, Properties};
@@ -63,15 +64,12 @@ impl Component for ImagesList {
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
-        let on_add_image = ctx.link().callback(|_| Msg::AddImage);
         let current = ctx.props().current;
         html! {
             <div id="images-list" class="card" style="width: 18rem;">
             <ul class="list-group list-group-flush">
             <li class="list-group-item">
-                <button type="button" class="btn btn-success" onclick={on_add_image}>
-                    { "Add Image" }
-                </button>
+                <AddImageButton onaddimage={ctx.link().callback(|_| Msg::AddImage)} />
             </li>
             {
                 ctx.props().image_store.images.borrow().iter().enumerate().map(|(i, annotations)| {

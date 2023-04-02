@@ -1,9 +1,9 @@
 use crate::annotated_image::AnnotatedImage;
 use crate::bbox::BBox;
+use crate::components::Header;
 use crate::components::{ImagesList, StatusBar};
 use crate::download::download_bytes;
 use crate::editor::Editor;
-use crate::header::Header;
 use crate::label_tool::LabelTool;
 use crate::labels::Labels;
 use crate::upload_annotations::UploadAnnotations;

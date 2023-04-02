@@ -15,7 +15,6 @@ mod bbox;
 mod components;
 mod download;
 mod editor;
-mod header;
 mod label_tool;
 mod labels;
 mod stores;

@@ -1,3 +1,15 @@
+.header {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 1.5rem 0;
+}
+
+.header h1 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
 .status-bar {
     background-color: #f8f9fa;
     padding: 10px;
@@ -8,4 +20,26 @@
     right: 0;
     display: flex;
     justify-content: center;
+}
+
+.add-image-btn {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: #ffffff;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.add-image-btn:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.add-image-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
 }
