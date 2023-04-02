@@ -31,6 +31,19 @@ impl ImageStore {
             }
         }
     }
+
+    /// Returns the number of images in the `ImageStore`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use image_label_tool::prelude::ImageStore;
+    /// let image_store = ImageStore::default();
+    /// assert_eq!(image_store.len(), 0);
+    /// ```
+    pub fn len(&self) -> usize {
+        self.images.borrow().len()
+    }
 }
 
 #[cfg(test)]
@@ -45,5 +58,6 @@ mod tests {
         let image = AnnotatedImage::default();
         image_store.update(ImageStoreMsg::AddImage(image));
         assert_eq!(image_store.images.borrow().len(), 1);
+        assert_eq!(image_store.len(), 1);
     }
 }

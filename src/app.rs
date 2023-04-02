@@ -1,6 +1,6 @@
 use crate::annotated_image::AnnotatedImage;
 use crate::bbox::BBox;
-use crate::components::ImagesList;
+use crate::components::{ImagesList, StatusBar};
 use crate::download::download_bytes;
 use crate::editor::Editor;
 use crate::header::Header;
@@ -219,6 +219,7 @@ impl Component for App {
             }
             None => html!(),
         };
+        let image_count = annotated_images.len();
 
         html! {
             <>
@@ -234,6 +235,7 @@ impl Component for App {
             <button type="button" class="btn btn-success" onclick={on_download_annotations}>
                 { "Download Annotations" }
             </button>
+            <StatusBar {image_count} />
             </>
         }
     }
