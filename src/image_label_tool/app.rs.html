@@ -274,6 +274,8 @@
 <a href="#274" id="274">274</a>
 <a href="#275" id="275">275</a>
 <a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::annotated_image::AnnotatedImage;
 <span class="kw">use </span><span class="kw">crate</span>::bbox::BBox;
 <span class="kw">use </span><span class="kw">crate</span>::components::{ImagesList, StatusBar};
@@ -450,7 +452,8 @@
                     .borrow()
                     .get(<span class="self">self</span>.current)
                     .unwrap()
-                    .get_annotations();
+                    .get_annotations()
+                    .clone();
                 <span class="kw">let </span>file_data = format_annotations(<span class="kw-2">&amp;</span>annotations, <span class="kw-2">&amp;</span><span class="self">self</span>.labels).join(<span class="string">&quot;\n&quot;</span>);
                 download_bytes(file_data.as_bytes(), <span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}.txt&quot;</span>, <span class="string">&quot;annotations&quot;</span>));
                 <span class="bool-val">true
@@ -483,9 +486,10 @@
             .borrow()
             .get(<span class="self">self</span>.current)
             .unwrap()
-            .get_annotations();
+            .get_annotations()
+            .clone();
         <span class="kw">let </span>image = <span class="kw">match </span>ctx.props().label_tool.get_annotated_image(<span class="self">self</span>.current) {
-            <span class="prelude-val">Some</span>(annotated_image) =&gt; annotated_image.get_image(),
+            <span class="prelude-val">Some</span>(annotated_image) =&gt; annotated_image.get_image().clone(),
             <span class="prelude-val">None </span>=&gt; DynamicImage::ImageRgb8(image::ImageBuffer::new(<span class="number">100</span>, <span class="number">100</span>)),
         };
 

@@ -105,56 +105,58 @@
 <a href="#105" id="105">105</a>
 <a href="#106" id="106">106</a>
 <a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::Annotation;
 <span class="kw">use </span>image::DynamicImage;
-<span class="kw">use </span>std::sync::{Arc, Mutex};
+<span class="kw">use </span>std::cell::{Ref, RefCell};
+<span class="kw">use </span>std::rc::Rc;
 <span class="kw">use </span>wasm_bindgen::prelude::<span class="kw-2">*</span>;
 
-<span class="doccomment">/// Image with Annotations
+<span class="doccomment">/// Represents an image with associated annotations.
 </span><span class="attr">#[wasm_bindgen]
 #[derive(Debug, Clone)]
 </span><span class="kw">pub struct </span>AnnotatedImage {
-    image: Arc&lt;Mutex&lt;DynamicImage&gt;&gt;,
-    annotations: Arc&lt;Mutex&lt;Vec&lt;Annotation&gt;&gt;&gt;,
+    image: Rc&lt;RefCell&lt;DynamicImage&gt;&gt;,
+    annotations: Rc&lt;RefCell&lt;Vec&lt;Annotation&gt;&gt;&gt;,
 }
 
 <span class="kw">impl </span>AnnotatedImage {
-    <span class="doccomment">/// Create a new AnnotatedImage
+    <span class="doccomment">/// Creates a new `AnnotatedImage` with an empty image and no annotations.
     </span><span class="kw">pub fn </span>new() -&gt; AnnotatedImage {
         AnnotatedImage {
-            image: Arc::new(Mutex::new(DynamicImage::new_rgb8(<span class="number">1</span>, <span class="number">1</span>))),
-            annotations: Arc::new(Mutex::new(Vec::new())),
+            image: Rc::new(RefCell::new(DynamicImage::new_rgb8(<span class="number">1</span>, <span class="number">1</span>))),
+            annotations: Rc::new(RefCell::new(Vec::new())),
         }
     }
 
-    <span class="doccomment">/// sets the image
+    <span class="doccomment">/// Sets the image for the `AnnotatedImage`.
     </span><span class="kw">pub fn </span>set_image(<span class="kw-2">&amp;</span><span class="self">self</span>, image: DynamicImage) {
-        <span class="kw-2">*</span><span class="self">self</span>.image.lock().unwrap() = image;
+        <span class="kw-2">*</span><span class="self">self</span>.image.borrow_mut() = image;
     }
 
-    <span class="doccomment">/// adds an annotation
+    <span class="doccomment">/// Adds an annotation to the `AnnotatedImage`.
     </span><span class="kw">pub fn </span>push(<span class="kw-2">&amp;</span><span class="self">self</span>, annotation: Annotation) {
-        <span class="self">self</span>.annotations.lock().unwrap().push(annotation);
+        <span class="self">self</span>.annotations.borrow_mut().push(annotation);
     }
 
-    <span class="doccomment">/// removes all annotations
+    <span class="doccomment">/// Removes all annotations from the `AnnotatedImage`.
     </span><span class="kw">pub fn </span>clear(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-        <span class="self">self</span>.annotations.lock().unwrap().clear();
+        <span class="self">self</span>.annotations.borrow_mut().clear();
     }
 
-    <span class="doccomment">/// len of all annotations
+    <span class="doccomment">/// Returns the number of annotations in the `AnnotatedImage`.
     </span><span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
-        <span class="self">self</span>.annotations.lock().unwrap().len()
+        <span class="self">self</span>.annotations.borrow().len()
     }
 
-    <span class="doccomment">/// returns all annotations
-    </span><span class="kw">pub fn </span>get_annotations(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;Annotation&gt; {
-        <span class="self">self</span>.annotations.lock().unwrap().clone()
+    <span class="doccomment">/// Returns a reference to the annotations in the `AnnotatedImage`.
+    </span><span class="kw">pub fn </span>get_annotations(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Ref&lt;Vec&lt;Annotation&gt;&gt; {
+        <span class="self">self</span>.annotations.borrow()
     }
 
     <span class="doccomment">/// returns the image
-    </span><span class="kw">pub fn </span>get_image(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DynamicImage {
-        <span class="self">self</span>.image.lock().unwrap().clone()
+    </span><span class="kw">pub fn </span>get_image(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Ref&lt;DynamicImage&gt; {
+        <span class="self">self</span>.image.borrow()
     }
 }
 
