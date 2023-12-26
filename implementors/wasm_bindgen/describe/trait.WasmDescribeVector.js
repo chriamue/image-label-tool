@@ -1,0 +1,3 @@
+(function() {var implementors = {
+"image_label_tool":[["impl WasmDescribeVector for <a class=\"struct\" href=\"image_label_tool/prelude/struct.LabelTool.html\" title=\"struct image_label_tool::prelude::LabelTool\">LabelTool</a>"],["impl WasmDescribeVector for <a class=\"struct\" href=\"image_label_tool/prelude/struct.AnnotatedImage.html\" title=\"struct image_label_tool::prelude::AnnotatedImage\">AnnotatedImage</a>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
